@@ -98,7 +98,10 @@ class _ServerDropdownMenu extends State<ServerDropdownMenu> {
       elevation: 4,
       alignment: AlignmentDirectional.topStart,
       menuMaxHeight: 200.0,
-      style: const TextStyle(color: Colors.deepPurple),
+      style: const TextStyle(
+          color: Colors.black54,
+          fontWeight: FontWeight.bold,
+      ),
       borderRadius: BorderRadius.circular(10.0),
       onChanged: (String? newValue) {
         setState(() {
