@@ -93,13 +93,9 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
               onPressed: () {
                 setState((){});
                 _text.text.isEmpty ? _validate = true : _validate = false;
-                try {
-                  print(serverID);
-                  print(summonerName);
-                }
-                catch(e){
-                    print(e);
-                }
+                print(serverID);
+                print(summonerName);
+                Navigator.pushNamed(context, '/matchhistory');
               },
               style: ElevatedButton.styleFrom(
                   shape: const StadiumBorder(),

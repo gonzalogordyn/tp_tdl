@@ -7,13 +7,12 @@ import 'views/SummonerLogin.dart';
 
 void main() {
   runApp(MaterialApp(
-    //initialRoute: '/home',
-    home: SummonerInputScreen(),
-    // routes: {
+    initialRoute: '/summonerinput',
+    routes: {
     //   '/': (context) => Loading(),
-    //   '/summonerinput': (context) => SummonerInputScreen(),
-    //   '/matchhistory': (context) => MatchHistory(),
-    // },
+       '/summonerinput': (context) => SummonerInputScreen(),
+       '/matchhistory': (context) => SummonerHistory(),
+    },
   ));
 }
 
