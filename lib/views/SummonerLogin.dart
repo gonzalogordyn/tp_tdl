@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SummonerInputScreen extends StatefulWidget{
   @override
@@ -8,7 +9,22 @@ class SummonerInputScreen extends StatefulWidget{
 class _SummonerInputScreenState extends State<SummonerInputScreen> {
 
   late String summonerName;
-  late String serverID;
+  String serverID = 'LAS';
+
+  final _text = TextEditingController();
+  bool _validate = false;
+
+  @override
+  void dispose() {
+    _text.dispose();
+    super.dispose();
+  }
+
+  void refresh(String newServerID){
+      setState((){
+        serverID = newServerID;
+      });
+  }
 
   @override
 
@@ -35,17 +51,20 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                     child: SizedBox(
                       width: 250.0,
                       child: TextField(
+                        controller: _text,
                         onChanged: (text){
                           summonerName = text;
                         },
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
+                        enableSuggestions: true,
+                        decoration: InputDecoration(
+                          hintText: 'Enter summoner name',
+                          errorText: _validate ? 'This field can\'t be empty' : null,
+                          border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(100.0)),
                           ),
                           filled: true,
                           fillColor: Colors.white,
                           focusColor: Colors.white,
-                          labelText: 'Enter summoner name',
                         ),
                       ),
                     ),
@@ -56,7 +75,9 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(50.0)),
                           color: Colors.white,
                       ),
-                      child: const Center(child: ServerDropdownMenu()),
+                      child: Center(
+                          child: ServerDropdownMenu(notifyParent: refresh)
+                      ),
                   ),
 
                 ]
@@ -65,7 +86,16 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                 height: 30.0,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _text.text.isEmpty ? _validate = true : _validate = false;
+                try {
+                  print(serverID);
+                  print(summonerName);
+                }
+                catch(e){
+                    print(e);
+                }
+              },
               style: ElevatedButton.styleFrom(
                   shape: const StadiumBorder(),
                   primary: Colors.blue[700],
@@ -91,7 +121,9 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
 }
 
 class ServerDropdownMenu extends StatefulWidget {
-  const ServerDropdownMenu({Key? key}) : super(key: key);
+  final Function(String serverID) notifyParent;
+
+  const ServerDropdownMenu({Key? key, required this.notifyParent}) : super(key: key);
 
   @override
   State<ServerDropdownMenu> createState() => _ServerDropdownMenu();
@@ -117,6 +149,7 @@ class _ServerDropdownMenu extends State<ServerDropdownMenu> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownValue = newValue!;
+            setState((){widget.notifyParent(dropdownValue);});
           });
 
         },
