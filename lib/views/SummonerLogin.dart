@@ -45,6 +45,7 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
               child: Image.asset('assets/pengu.png'),
             ),
             Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.fromLTRB(30.0, 30.0, 20.0, 30.0),
@@ -69,15 +70,18 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                      width: 80.0,
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                          color: Colors.white,
-                      ),
-                      child: Center(
-                          child: ServerDropdownMenu(notifyParent: refresh)
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 35.0, 0, 10.0),
+                    child: Container(
+                        width: 80.0,
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                            color: Colors.white,
+                        ),
+                        child: Center(
+                            child: ServerDropdownMenu(notifyParent: refresh)
+                        ),
+                    ),
                   ),
 
                 ]
@@ -87,6 +91,7 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                setState((){});
                 _text.text.isEmpty ? _validate = true : _validate = false;
                 try {
                   print(serverID);
