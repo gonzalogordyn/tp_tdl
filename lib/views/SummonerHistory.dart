@@ -19,17 +19,23 @@ class SummonerHistory extends StatefulWidget {
 
 class _SummonerHistoryState extends State<SummonerHistory> {
   late Future<List<SummonerMatchInfo>> matchHistoryInfo;
-  final String summonerPiuud = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
+  final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
+  Object? data;
+
   @override
   void initState() {
     super.initState();
 
     //TODO: CAMBIAR SummonerMatchInfo a Match asi se puede usar en la vista de Match
-    matchHistoryInfo = fetchMatchHistory(summonerPiuud, 0, 10);
+    matchHistoryInfo = fetchMatchHistory(summonerPuuid, 0, 10);
   }
 
   @override
   Widget build(BuildContext context) {
+
+    data = ModalRoute.of(context)!.settings.arguments;
+    print(data);
+
     return Material(
         color: Color(0xff003d73),
         child: Column(
