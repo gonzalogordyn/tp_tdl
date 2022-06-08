@@ -10,8 +10,8 @@ class SummonerMatchInfo {
   final int? gameEndTimestamp;
   SummonerMatchInfo({this.summonerName, this.championName, required this.won, this.score, this.build, this.gamemode, this.gameEndTimestamp});
 
-  factory SummonerMatchInfo.fromJson(String summonerPiuud, Map<String, dynamic> data) {
-    final summonerJsonIndex = data["info"]["participants"].indexWhere((participant) => participant["puuid"] == summonerPiuud);
+  factory SummonerMatchInfo.fromJson(String summonerPuuid, Map<String, dynamic> data) {
+    final summonerJsonIndex = data["info"]["participants"].indexWhere((participant) => participant["puuid"] == summonerPuuid);
     /*print("SUMMONERID: $summonerPiuud");
     for(int i = 0; i < data["info"]["participants"].length; i++) {
       print("PARTICIPANT $i: ${data["info"]["participants"][i]["puuid"]}");
@@ -34,7 +34,7 @@ class SummonerMatchInfo {
       summonerJson["item5"]
     ];
 
-    bool won = summonerJson["nexusLost"] == 0 ? false : true;
+    bool won = summonerJson["nexusLost"] == 0 ? true : false;
     String gamemode = data["info"]["gameMode"];
     int gameEndTimestamp = data["info"]["gameEndTimestamp"];
     return SummonerMatchInfo(summonerName: summonerName, championName: championName, won: won,
