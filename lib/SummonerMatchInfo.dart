@@ -12,7 +12,10 @@ class SummonerMatchInfo {
 
   factory SummonerMatchInfo.fromJson(String summonerPiuud, Map<String, dynamic> data) {
     final summonerJsonIndex = data["info"]["participants"].indexWhere((participant) => participant["puuid"] == summonerPiuud);
-
+    /*print("SUMMONERID: $summonerPiuud");
+    for(int i = 0; i < data["info"]["participants"].length; i++) {
+      print("PARTICIPANT $i: ${data["info"]["participants"][i]["puuid"]}");
+    }*/
     final summonerJson = data["info"]["participants"][summonerJsonIndex];
 
     final String summonerName = summonerJson["summonerName"];

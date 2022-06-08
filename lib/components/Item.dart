@@ -11,13 +11,29 @@ class Item extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(3),
-      child: Image.network(
-          'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/item/$itemId.png',
-          width: size,
-          height: size
-      )
+      child: _itemAsset()
+
     );
     
   }
 
+  Widget _itemAsset() {
+    if(itemId == 0) {
+      return SizedBox(
+        width: size,
+        height: size,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Color(0x775c5c5c)
+          ),
+        )
+      );
+    } else {
+      return Image.network(
+          'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/item/$itemId.png',
+          width: size,
+          height: size
+      );
+    }
+  }
 }
