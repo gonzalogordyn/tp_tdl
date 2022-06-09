@@ -39,6 +39,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
   }
 
   void setMatchHistory(summonerPuuid) {
+    matchHistory.clear();
     setMatchHistoryFuture(widget.summoner.getSummonerPuuid()!, 0, 5);
     matchHistoryInfo.then((matches) {
       matchHistory = matches;
@@ -74,18 +75,45 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                   return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
                 } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                   return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
-                } else if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: matchHistory.length,
-                    itemBuilder: (context, index) {
-                      return MatchPreview(summonerMatchInfo: matchHistory[index]);
-                  });
-                }
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return Center(
-                    child: CircularProgressIndicator(),
+                } else if(matchHistory.isNotEmpty && snapshot.connectionState == ConnectionState.done) {
+                  return Column(
+                    children: <Widget>[
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: matchHistory.length,
+                        itemBuilder: (context, index) {
+                          return MatchPreview(summonerMatchInfo: matchHistory[index]);
+                      }),
+                      Container(
+                        color: Color(0xffeaeaea),
+                        height: 50,
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
+                        child: TextButton(
+                          child: Text("Show more", style: TextStyle(fontSize: 22),),
+                          onPressed: () { addGamesToMatchHistory(summonerPuuid, 5); },
+                        ),
+                      ),
+                    ],
+                  );
+                } else if(matchHistory.isNotEmpty && snapshot.connectionState != ConnectionState.done) {
+                  return Column(
+                    children: <Widget>[
+                      ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: matchHistory.length,
+                          itemBuilder: (context, index) {
+                            return MatchPreview(summonerMatchInfo: matchHistory[index]);
+                          }),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: Center(
+                            child: CircularProgressIndicator()
+                        ),
+                      ),
+                    ],
                   );
                 }
                 return Center(
@@ -93,7 +121,6 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                 );
               }
             ),
-
             SizedBox(height:20),
           ]
         )

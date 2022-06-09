@@ -28,13 +28,13 @@ class MatchPreview extends StatelessWidget {
             )
           ),
           Container(
-              constraints: BoxConstraints(minWidth: 90, maxWidth: 90),
+            constraints: BoxConstraints(minWidth: 90, maxWidth: 90),
             child: Column(
               children: <Widget>[
                 Text(summonerMatchInfo.getScoreAsString(), style: Theme.of(context).textTheme.headline4),
                 Text("KDA: ${summonerMatchInfo.getKDA()}", style: Theme.of(context).textTheme.headline5),
               ]
-            )
+            ),
           ),
           Container(
               margin: EdgeInsets.fromLTRB(6, 0, 0, 0),
