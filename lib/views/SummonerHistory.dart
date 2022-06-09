@@ -41,7 +41,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
         child: Column(
             children: <Widget>[
               SizedBox(height:60),
-              Text("SUMMONER_NAME", style: TextStyle(color: Colors.white),),
+              Text(widget.summoner.summonerName!, style: TextStyle(color: Colors.white),),
               SizedBox(height:50),
               FutureBuilder<List<SummonerMatchInfo>>(
                 future: matchHistoryInfo,
