@@ -2,13 +2,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:test_project/components/MatchPreview.dart';
+import '../Summoner.dart';
 import '../SummonerMatchInfo.dart';
 
-const String API_KEY = "RGAPI-818c6a07-3e3a-4442-ad80-9057c72fe28b";
+const String API_KEY = "RGAPI-bcdb9e9a-4f3f-4013-a513-ff9b7908dd8e";
+const String summonerPuuid = "hpjXwNk0c78BWy4uiS9ZMYsKVxPdFSw1peyhtAW9ei6Mdwl7F8S3D7rVguMFcOCHtoFsjvl2FXdxpg";
 
 class SummonerHistory extends StatefulWidget {
+  final Summoner summoner;
+
   SummonerHistory({
-    Key? key,
+    Key? key, required this.summoner
   }) : super(key: key);
 
   @override
@@ -21,12 +25,14 @@ class _SummonerHistoryState extends State<SummonerHistory> {
   final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
   late Future<List<SummonerMatchInfo>> matchHistoryInfo;
 
+  _SummonerHistoryState();
+
   @override
   void initState() {
     super.initState();
 
     //TODO: CAMBIAR SummonerMatchInfo a Match asi se puede usar en la vista de Match
-    matchHistoryInfo = fetchMatchHistory(summonerPuuid, 0, 10);
+    matchHistoryInfo = fetchMatchHistory(widget.summoner.getSummonerPuuid()!, 0, 10);
   }
 
   @override
@@ -37,7 +43,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
           child:  Column(
             children: <Widget>[
               SizedBox(height:60),
-              Text("SUMMONER_STATS", style: TextStyle(color: Colors.white),),
+              Text("SUMMONER_NAME", style: TextStyle(color: Colors.white),),
               SizedBox(height:50),
               FutureBuilder<List<SummonerMatchInfo>>(
                 future: matchHistoryInfo,
@@ -55,15 +61,16 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                         return MatchPreview(summonerMatchInfo: snapshot.data![index]);
                     });
                   }
+
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
               ),
+
               SizedBox(height:20),
             ]
-          ),
-      )
+        )
     );
   }
 }
@@ -98,13 +105,13 @@ Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) 
 Future<SummonerMatchInfo> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
   String url = "https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}";
   var res = await http.get(Uri.parse(url), headers: {
-    "X-Riot-Token": "RGAPI-818c6a07-3e3a-4442-ad80-9057c72fe28b"
+    "X-Riot-Token": API_KEY
   });
 
   Map<String, dynamic> parsedJson = jsonDecode(res.body);
   if (res.statusCode == 200) {
     return SummonerMatchInfo.fromJson(summonerPuuid, parsedJson);
   } else {
-    throw Exception('An error ocurred fetching the match data with id $matchId. Please try again later. ${res.body}');
+    throw Exception('An error occurred fetching the match data with id $matchId. Please try again later. ${res.body}');
   }
 }

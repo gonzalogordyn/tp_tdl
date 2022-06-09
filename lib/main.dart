@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/views/SummonerHistory.dart';
-
+import 'SummonerMatchInfo.dart';
+import 'User.dart';
 import 'views/SummonerLogin.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,7 +29,7 @@ void main() {
     routes: {
     //   '/': (context) => Loading(),
        '/summonerinput': (context) => SummonerInputScreen(),
-       '/matchhistory': (context) => SummonerHistory(),
+       //'/matchhistory': (context) => SummonerHistory(),
     },
   ));
 }
