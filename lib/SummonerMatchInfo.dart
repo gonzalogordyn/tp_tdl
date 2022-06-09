@@ -34,7 +34,7 @@ class SummonerMatchInfo {
       summonerJson["item5"]
     ];
 
-    bool won = summonerJson["nexusLost"] == 0 ? true : false;
+    bool won = summonerJson["win"];
     String gamemode = data["info"]["gameMode"];
     int gameEndTimestamp = data["info"]["gameEndTimestamp"];
     return SummonerMatchInfo(summonerName: summonerName, championName: championName, won: won,
