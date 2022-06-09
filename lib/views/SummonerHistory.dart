@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:test_project/components/MatchPreview.dart';
@@ -24,6 +25,7 @@ class SummonerHistory extends StatefulWidget {
 class _SummonerHistoryState extends State<SummonerHistory> {
 
   final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
+  List<SummonerMatchInfo> matchHistory = [];
   late Future<List<SummonerMatchInfo>> matchHistoryInfo;
 
   _SummonerHistoryState();
@@ -33,11 +35,28 @@ class _SummonerHistoryState extends State<SummonerHistory> {
     super.initState();
 
     //TODO: CAMBIAR SummonerMatchInfo a Match asi se puede usar en la vista de Match
-    setMatchHistory(widget.summoner.getSummonerPuuid()!, 0, 10);
+    setMatchHistory(summonerPuuid);
   }
 
-  void setMatchHistory(summonerPuuid, start, limit) {
-    matchHistoryInfo = fetchMatchHistory(summonerPuuid, start, limit);
+  void setMatchHistory(summonerPuuid) {
+    setMatchHistoryFuture(widget.summoner.getSummonerPuuid()!, 0, 5);
+    matchHistoryInfo.then((matches) {
+      matchHistory = matches;
+    });
+  }
+
+  void addGamesToMatchHistory(summonerPuuid, limit) {
+    setMatchHistoryFuture(widget.summoner.getSummonerPuuid()!, matchHistory.length, limit);
+    matchHistoryInfo.then((matches) { 
+      matchHistory.addAll(matches); 
+    });
+  }
+
+  void setMatchHistoryFuture(summonerPuuid, start, limit) async {
+    print("SET MATCH HISTORY");
+    setState(() {
+      matchHistoryInfo = fetchMatchHistory(summonerPuuid, start, limit);
+    });
   }
 
   @override
@@ -55,16 +74,20 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                   return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
                 } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                   return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
-                } else if(snapshot.hasData) {
+                } else if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
+                    itemCount: matchHistory.length,
                     itemBuilder: (context, index) {
-                      return MatchPreview(summonerMatchInfo: snapshot.data![index]);
+                      return MatchPreview(summonerMatchInfo: matchHistory[index]);
                   });
                 }
-
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
                 return Center(
                   child: CircularProgressIndicator(),
                 );
@@ -77,45 +100,46 @@ class _SummonerHistoryState extends State<SummonerHistory> {
       )
     );
   }
-}
 
-Future<List<SummonerMatchInfo>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
-  var matchIds = await fetchMatchIds(summonerPuuid, start, count);
-  List<SummonerMatchInfo> matchHistoryInfo = [];
+  Future<List<SummonerMatchInfo>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
+    var matchIds = await fetchMatchIds(summonerPuuid, start, count);
+    List<SummonerMatchInfo> matchHistoryInfo = [];
 
-  for (var matchId in matchIds) {
-    SummonerMatchInfo matchInfo = await fetchSummonerMatchInfo(summonerPuuid, matchId);
-    matchHistoryInfo.add(matchInfo);
+    for (var matchId in matchIds) {
+      SummonerMatchInfo matchInfo = await fetchSummonerMatchInfo(summonerPuuid, matchId);
+      matchHistoryInfo.add(matchInfo);
+    }
+
+    return matchHistoryInfo;
   }
 
-  return matchHistoryInfo;
-}
+  Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) async {
+    String base = "americas.api.riotgames.com";
+    String endpoint = "/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids";
+    final params = {
+      'start': start.toString(),
+      'count': count.toString()
+    };
+    var matchIdsResult = await http.get(Uri.https(base, endpoint, params), headers: {
+      "X-Riot-Token": API_KEY
+    });
+    await Future.delayed(Duration(seconds: 1));
 
-Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) async {
-  String base = "americas.api.riotgames.com";
-  String endpoint = "/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids";
-  final params = {
-    'start': start.toString(),
-    'count': count.toString()
-  };
-  var matchIdsResult = await http.get(Uri.https(base, endpoint, params), headers: {
-    "X-Riot-Token": API_KEY
-  });
-  await Future.delayed(Duration(seconds: 1));
+    return jsonDecode(matchIdsResult.body);
+  }
 
-  return jsonDecode(matchIdsResult.body);
-}
+  Future<SummonerMatchInfo> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
+    String url = "https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}";
+    var res = await http.get(Uri.parse(url), headers: {
+      "X-Riot-Token": API_KEY
+    });
 
-Future<SummonerMatchInfo> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
-  String url = "https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}";
-  var res = await http.get(Uri.parse(url), headers: {
-    "X-Riot-Token": API_KEY
-  });
-
-  Map<String, dynamic> parsedJson = jsonDecode(res.body);
-  if (res.statusCode == 200) {
-    return SummonerMatchInfo.fromJson(summonerPuuid, parsedJson);
-  } else {
-    throw Exception('An error occurred fetching the match data with id $matchId. Please try again later. ${res.body}');
+    Map<String, dynamic> parsedJson = jsonDecode(res.body);
+    if (res.statusCode == 200) {
+      return SummonerMatchInfo.fromJson(summonerPuuid, parsedJson);
+    } else {
+      throw Exception('An error occurred fetching the match data with id $matchId. Please try again later. ${res.body}');
+    }
   }
 }
+

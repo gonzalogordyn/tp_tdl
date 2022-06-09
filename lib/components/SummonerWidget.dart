@@ -58,7 +58,7 @@ class SummonerWidget extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           primary: Color(0xff05aefc)
                       ),
-                      onPressed: () => fetchMatchHistory(summoner.getSummonerPuuid()!, 0, 10),
+                      onPressed: () => refreshMatchHistory(summoner.getSummonerPuuid()!),
                       child: Text(
                         'Refresh',
                         style: TextStyle(
