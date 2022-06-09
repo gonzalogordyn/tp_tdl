@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:test_project/components/MatchPreview.dart';
 import '../Summoner.dart';
 import '../SummonerMatchInfo.dart';
+import '../components/SummonerWidget.dart';
 
-const String API_KEY = "RGAPI-bcdb9e9a-4f3f-4013-a513-ff9b7908dd8e";
+const String API_KEY = "RGAPI-3fb16f8d-7dad-4b2b-a466-1b2915e47fde";
 const String summonerPuuid = "hpjXwNk0c78BWy4uiS9ZMYsKVxPdFSw1peyhtAW9ei6Mdwl7F8S3D7rVguMFcOCHtoFsjvl2FXdxpg";
 
 class SummonerHistory extends StatefulWidget {
@@ -32,45 +33,48 @@ class _SummonerHistoryState extends State<SummonerHistory> {
     super.initState();
 
     //TODO: CAMBIAR SummonerMatchInfo a Match asi se puede usar en la vista de Match
-    matchHistoryInfo = fetchMatchHistory(widget.summoner.getSummonerPuuid()!, 0, 10);
+    setMatchHistory(widget.summoner.getSummonerPuuid()!, 0, 10);
+  }
+
+  void setMatchHistory(summonerPuuid, start, limit) {
+    matchHistoryInfo = fetchMatchHistory(summonerPuuid, start, limit);
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Color(0xff263F65),
-        child: SingleChildScrollView(
-          child:  Column(
-            children: <Widget>[
-              SizedBox(height:60),
-              Text("SUMMONER_NAME", style: TextStyle(color: Colors.white),),
-              SizedBox(height:50),
-              FutureBuilder<List<SummonerMatchInfo>>(
-                future: matchHistoryInfo,
-                builder: (BuildContext context, AsyncSnapshot<List<SummonerMatchInfo>> snapshot) {
-                  if(snapshot.hasError) {
-                    return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
-                  } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                    return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
-                  } else if(snapshot.hasData) {
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return MatchPreview(summonerMatchInfo: snapshot.data![index]);
-                    });
-                  }
-
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+      child: SingleChildScrollView(
+        child:  Column(
+          children: <Widget>[
+            SummonerWidget(summoner: widget.summoner, refreshMatchHistory: setMatchHistory),
+            FutureBuilder<List<SummonerMatchInfo>>(
+              future: matchHistoryInfo,
+              builder: (BuildContext context, AsyncSnapshot<List<SummonerMatchInfo>> snapshot) {
+                if(snapshot.hasError) {
+                  return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
+                } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                  return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
+                } else if(snapshot.hasData) {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return MatchPreview(summonerMatchInfo: snapshot.data![index]);
+                  });
                 }
-              ),
 
-              SizedBox(height:20),
-            ]
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            ),
+
+            SizedBox(height:20),
+          ]
         )
+      )
     );
   }
 }
