@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_project/views/SummonerHistory.dart';
 import 'SummonerMatchInfo.dart';
-import 'User.dart';
+import 'Summoner.dart';
 import 'views/SummonerLogin.dart';
 
 void main() {
@@ -11,7 +11,7 @@ void main() {
     routes: {
     //   '/': (context) => Loading(),
        '/summonerinput': (context) => SummonerInputScreen(),
-       '/matchhistory': (context) => SummonerHistory(),
+       //'/matchhistory': (context) => SummonerHistory(),
     },
   ));
 }
