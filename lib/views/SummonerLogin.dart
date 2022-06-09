@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SummonerInputScreen extends StatefulWidget{
   @override
@@ -30,7 +29,7 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
 
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: const Color(0xff003d73),
+      backgroundColor: const Color(0xff263F65),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:test_project/components/MatchPreview.dart';
-import '../User.dart';
 import '../SummonerMatchInfo.dart';
 
 const String API_KEY = "RGAPI-818c6a07-3e3a-4442-ad80-9057c72fe28b";
@@ -33,11 +32,12 @@ class _SummonerHistoryState extends State<SummonerHistory> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: Color(0xff003d73),
-        child: Column(
+      color: Color(0xff263F65),
+        child: SingleChildScrollView(
+          child:  Column(
             children: <Widget>[
               SizedBox(height:60),
-              Text("SUMMONER_NAME", style: TextStyle(color: Colors.white),),
+              Text("SUMMONER_STATS", style: TextStyle(color: Colors.white),),
               SizedBox(height:50),
               FutureBuilder<List<SummonerMatchInfo>>(
                 future: matchHistoryInfo,
@@ -47,25 +47,23 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                   } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
                     return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
                   } else if(snapshot.hasData) {
-                    return Expanded(
-                      child: ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return MatchPreview(summonerMatchInfo: snapshot.data![index]);
-                            //return Text("${snapshot.data![index].championName}", style: TextStyle(color: Colors.white));
-                          })
-                    );
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return MatchPreview(summonerMatchInfo: snapshot.data![index]);
+                    });
                   }
-
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
               ),
-
               SizedBox(height:20),
             ]
-        )
+          ),
+      )
     );
   }
 }

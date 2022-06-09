@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 
 import 'package:test_project/SummonerMatchInfo.dart';
 import 'package:test_project/components/Item.dart';
@@ -15,13 +14,13 @@ class MatchPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: summonerMatchInfo.won ? Colors.blueAccent : Colors.redAccent,
+      color: summonerMatchInfo.won ? Color(0xff92DEF6) : Color(0xffFB9191),
       padding: EdgeInsets.all(15),
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
       child: Row(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
+            margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: Image.network(
                 'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/champion/${summonerMatchInfo.championName}.png',
                 width: 70,
@@ -29,15 +28,16 @@ class MatchPreview extends StatelessWidget {
             )
           ),
           Container(
+              constraints: BoxConstraints(minWidth: 90, maxWidth: 90),
             child: Column(
               children: <Widget>[
-                Text(summonerMatchInfo.getScoreAsString(), style: TextStyle(fontSize: 25)),
-                Text("KDA: ${summonerMatchInfo.getKDA()}", style: TextStyle(fontSize: 18)),
+                Text(summonerMatchInfo.getScoreAsString(), style: Theme.of(context).textTheme.headline4),
+                Text("KDA: ${summonerMatchInfo.getKDA()}", style: Theme.of(context).textTheme.headline5),
               ]
             )
           ),
           Container(
-              margin: EdgeInsets.fromLTRB(8, 0, 0, 0),
+              margin: EdgeInsets.fromLTRB(6, 0, 0, 0),
               child: Column(
                   children: <Widget> [
                     Row(
@@ -61,8 +61,8 @@ class MatchPreview extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: Column(
               children: <Widget>[
-                Text(summonerMatchInfo.gamemode!, style: TextStyle(fontSize: 16)),
-                Text(summonerMatchInfo.getDateAsString(), style: TextStyle(fontSize: 10))
+                Text(summonerMatchInfo.gamemode!, style: Theme.of(context).textTheme.headline4),
+                Text(summonerMatchInfo.getDateAsString(), style: Theme.of(context).textTheme.headline5)
               ],
             )
           ),

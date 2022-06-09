@@ -10,7 +10,7 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(3),
+      padding: EdgeInsets.all(2),
       child: _itemAsset()
 
     );
