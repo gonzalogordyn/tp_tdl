@@ -7,7 +7,7 @@ class Summoner {
     final String? summonerId;
     final String? summonerPuuid;
     final int? summonerIconId;
-    final String? summonerLevel;
+    final int? summonerLevel;
 
     Summoner({this.summonerName, this.summonerId, this.summonerPuuid, this.summonerIconId, this.summonerLevel});
 
