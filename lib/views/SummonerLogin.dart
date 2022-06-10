@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import '../Summoner.dart';
 import '../views/SummonerHistory.dart';
 import 'dart:convert';
+import '../views/NavigationDrawer.dart';
 
 const String API_KEY = "RGAPI-3fb16f8d-7dad-4b2b-a466-1b2915e47fde";
 
@@ -36,6 +37,7 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
 
   Widget build(BuildContext context){
     return Scaffold(
+      drawer: NavigationDrawer(),
       backgroundColor: const Color(0xff263F65),
       body: Center(
         child: Column(

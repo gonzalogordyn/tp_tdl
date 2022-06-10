@@ -69,6 +69,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(),
       backgroundColor: Color(0xff263F65),
       body: RefreshIndicator(
         onRefresh: () => refresh(),
