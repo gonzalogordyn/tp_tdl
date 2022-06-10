@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/views/SummonerHistory.dart';
-import 'SummonerMatchInfo.dart';
-import 'views/SummonerLogin.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '/views/summoner_login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
