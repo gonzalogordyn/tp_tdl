@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:test_project/SummonerMatchInfo.dart';
-import 'package:test_project/components/Item.dart';
+import '../model/summoner_match_info.dart';
+import './item.dart';
 
 class MatchPreview extends StatelessWidget {
   final SummonerMatchInfo summonerMatchInfo;

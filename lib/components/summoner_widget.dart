@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:test_project/Summoner.dart';
+import '../model/summoner.dart';
 
 class SummonerWidget extends StatelessWidget {
   final Summoner summoner;
-  Function refreshMatchHistory;
+  final Function refreshMatchHistory;
 
   SummonerWidget({super.key, required this.summoner, required this.refreshMatchHistory});
 

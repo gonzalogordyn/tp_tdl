@@ -1,14 +1,11 @@
-import 'dart:convert';
 import 'dart:core';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:test_project/components/MatchPreview.dart';
-import '../views/NavigationDrawer.dart';
-import '../Summoner.dart';
-import '../SummonerMatchInfo.dart';
-import '../components/SummonerWidget.dart';
-
-const String API_KEY = "RGAPI-3e66d13e-6a05-459f-b2a3-30caaed26dba";
+import '../components/match_preview.dart';
+import '../views/navigation_drawer.dart';
+import '../model/summoner.dart';
+import '../model/summoner_match_info.dart';
+import '../components/summoner_widget.dart';
+import '../request_resolvers/match_request_resolver.dart';
 
 class SummonerHistory extends StatefulWidget {
   final Summoner summoner;
@@ -170,48 +167,4 @@ class _SummonerHistoryState extends State<SummonerHistory> {
       )
     );
   }
-
-  Future<List<SummonerMatchInfo>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
-    var matchIds = await fetchMatchIds(summonerPuuid, start, count);
-    List<SummonerMatchInfo> matchHistoryInfo = [];
-
-    for (var matchId in matchIds) {
-      SummonerMatchInfo? matchInfo = await fetchSummonerMatchInfo(summonerPuuid, matchId);
-      if(matchInfo != null) {
-        matchHistoryInfo.add(matchInfo);
-      }
-    }
-
-    return matchHistoryInfo;
-  }
-
-  Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) async {
-    String base = "americas.api.riotgames.com";
-    String endpoint = "/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids";
-    final params = {
-      'start': start.toString(),
-      'count': count.toString()
-    };
-    var matchIdsResult = await http.get(Uri.https(base, endpoint, params), headers: {
-      "X-Riot-Token": API_KEY
-    });
-    await Future.delayed(Duration(seconds: 1));
-
-    return jsonDecode(matchIdsResult.body);
-  }
-
-  Future<SummonerMatchInfo?> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
-    String url = "https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}";
-    var res = await http.get(Uri.parse(url), headers: {
-      "X-Riot-Token": API_KEY
-    });
-
-    Map<String, dynamic> parsedJson = jsonDecode(res.body);
-    if (res.statusCode == 200) {
-      return SummonerMatchInfo.fromJson(summonerPuuid, parsedJson);
-    } else {
-      throw Exception('An error occurred fetching the match data with id $matchId. Please try again later. ${res.body}');
-    }
-  }
 }
-

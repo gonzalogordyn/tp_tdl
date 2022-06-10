@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import '../Summoner.dart';
-import '../views/SummonerHistory.dart';
+import '../model/summoner.dart';
+import '../views/summoner_history.dart';
+import '../request_resolvers/summoner_request_resolver.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String API_KEY = "RGAPI-3e66d13e-6a05-459f-b2a3-30caaed26dba";
 
 class SummonerInputScreen extends StatefulWidget{
+  const SummonerInputScreen({Key? key}) : super(key: key);
+
   @override
   State<SummonerInputScreen> createState() => _SummonerInputScreenState();
 }
@@ -198,22 +199,5 @@ class _ServerDropdownMenu extends State<ServerDropdownMenu> {
         }).toList(),
       ),
     );
-  }
-}
-
-Future<Summoner> fetchSummonerInfo(String summonerName) async {
-
-  // TODO: que cambie url segun el server elegido
-
-  String url = "https://la2.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}";
-  var res = await http.get(Uri.parse(url), headers: {
-    "X-Riot-Token": API_KEY
-  });
-
-  Map<String, dynamic> parsedJson = jsonDecode(res.body);
-  if (res.statusCode == 200) {
-    return Summoner.fromJson(parsedJson);
-  } else {
-    throw Exception('An error occurred fetching the summoner data with name $summonerName. Please try again later. ${res.body}');
   }
 }
