@@ -8,7 +8,7 @@ import '../Summoner.dart';
 import '../SummonerMatchInfo.dart';
 import '../components/SummonerWidget.dart';
 
-const String API_KEY = "RGAPI-d589dab2-e0c8-408f-a6da-67f04b324f82";
+const String API_KEY = "RGAPI-3e66d13e-6a05-459f-b2a3-30caaed26dba";
 
 class SummonerHistory extends StatefulWidget {
   final Summoner summoner;

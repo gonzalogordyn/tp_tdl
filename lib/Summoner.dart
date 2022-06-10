@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../SummonerMatchInfo.dart';
 
 class Summoner {
     final String? summonerName;
@@ -26,5 +24,17 @@ class Summoner {
 
     String? getSummonerPuuid(){
         return summonerPuuid;
+    }
+
+    String stringify() {
+        Map<String, dynamic> summData = {
+            "name": summonerName,
+            "id": summonerId,
+            "puuid": summonerPuuid,
+            "profileIconId": summonerIconId,
+            "summonerLevel": summonerLevel
+        };
+
+        return jsonEncode(summData);
     }
 }

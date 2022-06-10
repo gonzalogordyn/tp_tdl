@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../Summoner.dart';
 import '../views/SummonerHistory.dart';
 import 'dart:convert';
-import '../views/NavigationDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-const String API_KEY = "RGAPI-d589dab2-e0c8-408f-a6da-67f04b324f82";
+const String API_KEY = "RGAPI-3e66d13e-6a05-459f-b2a3-30caaed26dba";
 
 class SummonerInputScreen extends StatefulWidget{
   @override
@@ -20,6 +19,29 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
 
   final _text = TextEditingController();
   bool _validate = false;
+  late Summoner summoner;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final prefsFuture = SharedPreferences.getInstance();
+
+    prefsFuture.then((prefs) {
+      String? accountsStr = prefs.getString("accounts");
+      print("SAVED ACCS: ");
+      print(accountsStr);
+      if(accountsStr != null) {
+        summoner = Summoner.fromJson(jsonDecode(accountsStr));
+        Navigator.push(context,
+          MaterialPageRoute(
+            builder: (context) => SummonerHistory(summoner: summoner),
+          ),
+        );
+      }
+    });
+
+  }
 
   @override
   void dispose() {
@@ -34,10 +56,8 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
   }
 
   @override
-
   Widget build(BuildContext context){
     return Scaffold(
-      drawer: NavigationDrawer(),
       backgroundColor: const Color(0xff263F65),
       body: Center(
         child: Column(
@@ -102,7 +122,10 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                 setState((){});
                 _text.text.isEmpty ? _validate = true : _validate = false;
 
+                final prefs = await SharedPreferences.getInstance();
                 Summoner summoner = await fetchSummonerInfo(summonerName);
+                prefs.setString("accounts", summoner.stringify());
+
                 Navigator.push(context,
                     MaterialPageRoute(
                       builder: (context) => SummonerHistory(summoner: summoner),
