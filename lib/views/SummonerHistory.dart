@@ -3,12 +3,12 @@ import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:test_project/components/MatchPreview.dart';
+import '../views/NavigationDrawer.dart';
 import '../Summoner.dart';
 import '../SummonerMatchInfo.dart';
 import '../components/SummonerWidget.dart';
 
-const String API_KEY = "RGAPI-3fb16f8d-7dad-4b2b-a466-1b2915e47fde";
-const String summonerPuuid = "hpjXwNk0c78BWy4uiS9ZMYsKVxPdFSw1peyhtAW9ei6Mdwl7F8S3D7rVguMFcOCHtoFsjvl2FXdxpg";
+const String API_KEY = "RGAPI-d589dab2-e0c8-408f-a6da-67f04b324f82";
 
 class SummonerHistory extends StatefulWidget {
   final Summoner summoner;
@@ -69,7 +69,40 @@ class _SummonerHistoryState extends State<SummonerHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: NavigationDrawer(),
+      appBar: AppBar(
+        elevation: 1.0,
+        backgroundColor: Color(0xff263F65),
+        centerTitle: true,
+        title: Container(
+            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+            child: Stack(
+                children: [
+                    CircleAvatar(
+                        backgroundColor: Color(0xffa98101),
+                        radius: 20,
+                        child: CircleAvatar(
+                            radius: 18,
+                            backgroundImage: NetworkImage("http://ddragon.leagueoflegends.com/cdn/12.11.1/img/profileicon/${widget.summoner.summonerIconId}.png"),
+                        )
+                    ),
+                    Positioned(
+                      top: 28.0,
+                      left: 5.0,
+                      child: Container(
+                          width: 30,
+                          height: 15,
+                          color: Color(0xffa98101),
+                          child: Text("${widget.summoner.summonerLevel!}",
+                              style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.center,
+                          ),
+                      ),
+                    ),
+                  ],
+            )
+        ),
+      ),
       backgroundColor: Color(0xff263F65),
       body: RefreshIndicator(
         onRefresh: () => refresh(),

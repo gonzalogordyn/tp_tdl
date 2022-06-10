@@ -6,7 +6,7 @@ import '../views/SummonerHistory.dart';
 import 'dart:convert';
 import '../views/NavigationDrawer.dart';
 
-const String API_KEY = "RGAPI-3fb16f8d-7dad-4b2b-a466-1b2915e47fde";
+const String API_KEY = "RGAPI-d589dab2-e0c8-408f-a6da-67f04b324f82";
 
 class SummonerInputScreen extends StatefulWidget{
   @override
