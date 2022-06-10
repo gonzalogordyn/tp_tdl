@@ -24,7 +24,6 @@ class SummonerHistory extends StatefulWidget {
 
 class _SummonerHistoryState extends State<SummonerHistory> {
 
-  final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
   List<SummonerMatchInfo> matchHistory = [];
   late Future<List<SummonerMatchInfo>> matchHistoryInfo;
 
@@ -53,6 +52,12 @@ class _SummonerHistoryState extends State<SummonerHistory> {
     });
   }
 
+  Future refresh() async{
+    setState((){
+        setMatchHistory(widget.summoner.summonerPuuid);
+    });
+  }
+
   void setMatchHistoryFuture(summonerPuuid, start, limit) async {
     print("SET MATCH HISTORY");
     setState(() {
@@ -62,68 +67,71 @@ class _SummonerHistoryState extends State<SummonerHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Color(0xff263F65),
-      child: SingleChildScrollView(
-        child:  Column(
-          children: <Widget>[
-            SummonerWidget(summoner: widget.summoner, refreshMatchHistory: setMatchHistory),
-            FutureBuilder<List<SummonerMatchInfo>>(
-              future: matchHistoryInfo,
-              builder: (BuildContext context, AsyncSnapshot<List<SummonerMatchInfo>> snapshot) {
-                if(snapshot.hasError) {
-                  return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
-                } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                  return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
-                } else if(matchHistory.isNotEmpty && snapshot.connectionState == ConnectionState.done) {
-                  return Column(
-                    children: <Widget>[
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: matchHistory.length,
-                        itemBuilder: (context, index) {
-                          return MatchPreview(summonerMatchInfo: matchHistory[index]);
-                      }),
-                      Container(
-                        color: Color(0xffeaeaea),
-                        height: 50,
-                        width: double.infinity,
-                        margin: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
-                        child: TextButton(
-                          child: Text("Show more", style: TextStyle(fontSize: 22),),
-                          onPressed: () { addGamesToMatchHistory(summonerPuuid, 5); },
-                        ),
-                      ),
-                    ],
-                  );
-                } else if(matchHistory.isNotEmpty && snapshot.connectionState != ConnectionState.done) {
-                  return Column(
-                    children: <Widget>[
-                      ListView.builder(
+    return Scaffold(
+      backgroundColor: Color(0xff263F65),
+      body: RefreshIndicator(
+        onRefresh: () => refresh(),
+        child: SingleChildScrollView(
+          child:  Column(
+            children: <Widget>[
+              SummonerWidget(summoner: widget.summoner, refreshMatchHistory: setMatchHistory),
+              FutureBuilder<List<SummonerMatchInfo>>(
+                future: matchHistoryInfo,
+                builder: (BuildContext context, AsyncSnapshot<List<SummonerMatchInfo>> snapshot) {
+                  if(snapshot.hasError) {
+                    return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
+                  } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                    return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
+                  } else if(matchHistory.isNotEmpty && snapshot.connectionState == ConnectionState.done) {
+                    return Column(
+                      children: <Widget>[
+                        ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: matchHistory.length,
                           itemBuilder: (context, index) {
                             return MatchPreview(summonerMatchInfo: matchHistory[index]);
-                          }),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        child: Center(
-                            child: CircularProgressIndicator()
+                        }),
+                        Container(
+                          color: Color(0xffeaeaea),
+                          height: 50,
+                          width: double.infinity,
+                          margin: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
+                          child: TextButton(
+                            child: Text("Show more", style: TextStyle(fontSize: 22),),
+                            onPressed: () { addGamesToMatchHistory(summonerPuuid, 5); },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    );
+                  } else if(matchHistory.isNotEmpty && snapshot.connectionState != ConnectionState.done) {
+                    return Column(
+                      children: <Widget>[
+                        ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: matchHistory.length,
+                            itemBuilder: (context, index) {
+                              return MatchPreview(summonerMatchInfo: matchHistory[index]);
+                            }),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: Center(
+                              child: CircularProgressIndicator()
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            ),
-            SizedBox(height:20),
-          ]
-        )
+              ),
+              SizedBox(height:20),
+            ]
+          )
+        ),
       )
     );
   }
