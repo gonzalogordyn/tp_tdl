@@ -10,12 +10,13 @@ class SummonerMatchInfo {
   final int? gameEndTimestamp;
   SummonerMatchInfo({this.summonerName, this.championName, required this.won, this.score, this.build, this.gamemode, this.gameEndTimestamp});
 
-  factory SummonerMatchInfo.fromJson(String summonerPuuid, Map<String, dynamic> data) {
+  static SummonerMatchInfo? fromJson(String summonerPuuid, Map<String, dynamic> data) {
+    final isTutorialGame = data["info"]["gameMode"].toString().contains("TUTORIAL");
+    if(isTutorialGame) {
+      return null;
+    }
+
     final summonerJsonIndex = data["info"]["participants"].indexWhere((participant) => participant["puuid"] == summonerPuuid);
-    /*print("SUMMONERID: $summonerPiuud");
-    for(int i = 0; i < data["info"]["participants"].length; i++) {
-      print("PARTICIPANT $i: ${data["info"]["participants"][i]["puuid"]}");
-    }*/
     final summonerJson = data["info"]["participants"][summonerJsonIndex];
 
     final String summonerName = summonerJson["summonerName"];

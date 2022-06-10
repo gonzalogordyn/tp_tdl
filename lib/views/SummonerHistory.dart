@@ -73,7 +73,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
               builder: (BuildContext context, AsyncSnapshot<List<SummonerMatchInfo>> snapshot) {
                 if(snapshot.hasError) {
                   return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
-                } else if(!snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                } else if(matchHistory.isEmpty && snapshot.connectionState == ConnectionState.done) {
                   return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
                 } else if(matchHistory.isNotEmpty && snapshot.connectionState == ConnectionState.done) {
                   return Column(
@@ -133,8 +133,10 @@ class _SummonerHistoryState extends State<SummonerHistory> {
     List<SummonerMatchInfo> matchHistoryInfo = [];
 
     for (var matchId in matchIds) {
-      SummonerMatchInfo matchInfo = await fetchSummonerMatchInfo(summonerPuuid, matchId);
-      matchHistoryInfo.add(matchInfo);
+      SummonerMatchInfo? matchInfo = await fetchSummonerMatchInfo(summonerPuuid, matchId);
+      if(matchInfo != null) {
+        matchHistoryInfo.add(matchInfo);
+      }
     }
 
     return matchHistoryInfo;
@@ -155,7 +157,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
     return jsonDecode(matchIdsResult.body);
   }
 
-  Future<SummonerMatchInfo> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
+  Future<SummonerMatchInfo?> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
     String url = "https://americas.api.riotgames.com/lol/match/v5/matches/${matchId}";
     var res = await http.get(Uri.parse(url), headers: {
       "X-Riot-Token": API_KEY

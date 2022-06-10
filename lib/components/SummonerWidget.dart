@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:test_project/Summoner.dart';
-import 'package:test_project/views/SummonerHistory.dart';
 
 class SummonerWidget extends StatelessWidget {
   final Summoner summoner;
@@ -12,7 +11,7 @@ class SummonerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 22, 0, 0),
+      margin: EdgeInsets.fromLTRB(0, 32, 0, 0),
       height: 130,
       //color: Color(0xffD9D9D9),
       child: Row(
@@ -22,8 +21,8 @@ class SummonerWidget extends StatelessWidget {
             child: Column(
               children: [
                 Image.network("http://ddragon.leagueoflegends.com/cdn/12.11.1/img/profileicon/${summoner.summonerIconId}.png",
-                  width: 90,
-                  height: 90,
+                  width: 85,
+                  height: 85,
                 ),
                 Container(
                   width: 40,
@@ -41,11 +40,21 @@ class SummonerWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(summoner.summonerName!, style: TextStyle(color: Colors.white, fontSize: 26)),
+              Container(
+                width: 130,
+                child: Center(
+                  child: Text(summoner.summonerName!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                  )),
+                ),
+              ),
             ],
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(60, 0, 0, 0),
+            margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
