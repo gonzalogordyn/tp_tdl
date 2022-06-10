@@ -15,22 +15,27 @@ class NavigationDrawer extends StatelessWidget {
                       buildMenuItem(
                           text: 'Match history',
                           icon: Icons.menu_book_rounded,
+                          onClicked: (){}
                       ),
                       buildMenuItem(
                           text: 'Search summoner',
                           icon: Icons.search_rounded,
+                          onClicked: (){}
                       ),
                     buildMenuItem(
                       text: 'Live game',
                       icon: Icons.play_arrow_rounded,
+                      onClicked: (){}
                     ),
                     buildMenuItem(
                       text: 'Statistics',
                       icon: Icons.bar_chart,
+                      onClicked: (){}
                     ),
                     buildMenuItem(
                       text: 'Latency test',
                       icon: Icons.wifi,
+                      onClicked: (){}
                     ),
                   ],
             )
@@ -40,14 +45,14 @@ class NavigationDrawer extends StatelessWidget {
       );
   }
 
-  Widget buildMenuItem({required String text, required IconData icon}){
+  Widget buildMenuItem({required String text, required IconData icon, VoidCallback? onClicked}){
       const color = Colors.white;
       const fontSize = 20.0;
 
       return ListTile(
           leading: Icon(icon, color: color),
           title: Text(text, style: TextStyle(color: color, fontSize: fontSize)),
-          onTap: (){},
+          onTap: onClicked,
       );
   }
 }
