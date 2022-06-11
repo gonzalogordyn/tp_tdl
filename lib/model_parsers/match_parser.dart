@@ -30,5 +30,6 @@ MatchParticipant buildMatchParticipantFromJson(Map<String, dynamic> json) {
       kills: json["kills"],
       deaths: json["deaths"],
       assists: json["assists"],
+      teamPosition: json["teamPosition"],
       build: build);
 }

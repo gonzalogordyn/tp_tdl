@@ -127,7 +127,10 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                                 onTap: () { Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MatchDetails(summonerMatchInfo: matchHistory[index]),),
+                                    builder: (context) => MatchDetails(match: matchHistory[index],
+                                      matchParticipant: matchHistory[index].getParticipantWithSummonerPuuid(widget.summoner.getSummonerPuuid()!)
+                                      ,),
+                                  ),
                                 );},
                                 child: MatchPreview(
                                     matchParticipant: matchHistory[index].getParticipantWithSummonerPuuid(widget.summoner.getSummonerPuuid()!),
