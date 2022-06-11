@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -33,9 +34,18 @@ class NavigationDrawer extends StatelessWidget {
                       onClicked: (){}
                     ),
                     buildMenuItem(
-                      text: 'Latency test',
-                      icon: Icons.wifi,
-                      onClicked: (){}
+                        text: 'Latency test',
+                        icon: Icons.wifi,
+                        onClicked: (){}
+                    ),
+                    buildMenuItem(
+                        text: 'Log out',
+                        icon: Icons.logout,
+                        onClicked: () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.remove("accounts");
+                            Navigator.of(context).popUntil(ModalRoute.withName("/summonerinput"));
+                        }
                     ),
                   ],
             )
