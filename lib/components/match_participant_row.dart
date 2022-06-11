@@ -33,7 +33,7 @@ class MatchParticipantRow extends StatelessWidget {
             children: <Widget> [
               // Text("teamPosition"),
               Image.network(
-                'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/champion/$championName.png',
+                'http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/$championName.png',
                 width: 40,
                 height: 40,
               ),

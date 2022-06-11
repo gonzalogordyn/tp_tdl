@@ -25,7 +25,7 @@ class MatchPreview extends StatelessWidget {
           Container(
             margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: Image.network(
-                'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/champion/${matchParticipant.championName}.png',
+                'http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${matchParticipant.championName}.png',
                 width: 70,
                 height: 70
             )
