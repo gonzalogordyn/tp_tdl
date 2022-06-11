@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import './match_details.dart';
 import '../components/match_preview.dart';
 import '../views/navigation_drawer.dart';
 import '../model/summoner.dart';
@@ -122,7 +123,14 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                           shrinkWrap: true,
                           itemCount: matchHistory.length,
                           itemBuilder: (context, index) {
-                            return MatchPreview(summonerMatchInfo: matchHistory[index]);
+                            return InkWell(
+                                onTap: () { Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MatchDetails(summonerMatchInfo: matchHistory[index]),),
+                                );},
+                                child: MatchPreview(summonerMatchInfo: matchHistory[index])
+                            );
                         }),
                         Container(
                           color: Color(0xffeaeaea),
