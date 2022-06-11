@@ -26,23 +26,25 @@ class MatchParticipantRow extends StatelessWidget {
     return Container(
         padding: EdgeInsets.all(2),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget> [
             Image.network(
               'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/champion/$championName.png',
               width: 40,
               height: 40,
             ),
-            Text("runas"),
-            Text("summoners"),
+            // Text("runas"),
+            // Text("summoners"),
+            SizedBox(width: 5),
             Text(summonerName),
+            Expanded(child: SizedBox()),
+
             Column (
               children: [
                 Text(score),
-                Text(kda)
+                Text("$kda KDA")
               ],
             ),
+            SizedBox(width: 5),
             Column (
                 children: [
                   Row(

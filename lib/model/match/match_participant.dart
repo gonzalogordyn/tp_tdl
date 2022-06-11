@@ -21,7 +21,7 @@ class MatchParticipant {
   });
 
   String getScoreAsString() {
-    return "$kills/$deaths/$assists";
+    return "${kills.toString().padLeft(2, '0')}/${deaths.toString().padLeft(2, '0')}/${assists.toString().padLeft(2, '0')}";
   }
 
   String getKDA() {
