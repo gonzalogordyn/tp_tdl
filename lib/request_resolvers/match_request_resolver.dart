@@ -1,18 +1,22 @@
-import '../model/summoner_match_info.dart';
+import '../model/match/match.dart';
+import '../model_parsers/match_parser.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 //TODO: Mover API_KEY a un archivo de configuracion
 const String apiKey = "RGAPI-3e66d13e-6a05-459f-b2a3-30caaed26dba";
 
-Future<List<SummonerMatchInfo>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
+Future<List<Match>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
   var matchIds = await fetchMatchIds(summonerPuuid, start, count);
-  List<SummonerMatchInfo> matchHistoryInfo = [];
+  List<Match> matchHistoryInfo = [];
 
   for (var matchId in matchIds) {
-    SummonerMatchInfo? matchInfo = await fetchSummonerMatchInfo(summonerPuuid, matchId);
-    if(matchInfo != null) {
+    try {
+      Match matchInfo = await fetchSummonerMatchInfo(summonerPuuid, matchId);
       matchHistoryInfo.add(matchInfo);
+    } on FormatException {
+      // Received tutorial game. Nothing to do
     }
   }
 
@@ -34,7 +38,7 @@ Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) 
   return jsonDecode(matchIdsResult.body);
 }
 
-Future<SummonerMatchInfo?> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
+Future<Match> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async {
   String url = "https://americas.api.riotgames.com/lol/match/v5/matches/$matchId";
   var res = await http.get(Uri.parse(url), headers: {
     "X-Riot-Token": apiKey
@@ -42,7 +46,7 @@ Future<SummonerMatchInfo?> fetchSummonerMatchInfo(String summonerPuuid, String m
 
   Map<String, dynamic> parsedJson = jsonDecode(res.body);
   if (res.statusCode == 200) {
-    return SummonerMatchInfo.fromJson(summonerPuuid, parsedJson);
+    return buildMatchFromJson(parsedJson);
   } else {
     throw Exception('An error occurred fetching the match data with id $matchId. Please try again later. ${res.body}');
   }

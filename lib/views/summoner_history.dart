@@ -4,9 +4,9 @@ import './match_details.dart';
 import '../components/match_preview.dart';
 import '../views/navigation_drawer.dart';
 import '../model/summoner.dart';
-import '../model/summoner_match_info.dart';
 import '../components/summoner_widget.dart';
 import '../request_resolvers/match_request_resolver.dart';
+import '../model/match/match.dart';
 
 class SummonerHistory extends StatefulWidget {
   final Summoner summoner;
@@ -23,8 +23,8 @@ class SummonerHistory extends StatefulWidget {
 class _SummonerHistoryState extends State<SummonerHistory> {
 
   final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
-  List<SummonerMatchInfo> matchHistory = [];
-  late Future<List<SummonerMatchInfo>> matchHistoryInfo;
+  List<Match> matchHistory = [];
+  late Future<List<Match>> matchHistoryInfo;
 
   _SummonerHistoryState();
 
@@ -108,9 +108,9 @@ class _SummonerHistoryState extends State<SummonerHistory> {
           child:  Column(
             children: <Widget>[
               SummonerWidget(summoner: widget.summoner, refreshMatchHistory: setMatchHistory),
-              FutureBuilder<List<SummonerMatchInfo>>(
+              FutureBuilder<List<Match>>(
                 future: matchHistoryInfo,
-                builder: (BuildContext context, AsyncSnapshot<List<SummonerMatchInfo>> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<Match>> snapshot) {
                   if(snapshot.hasError) {
                     return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
                   } else if(matchHistory.isEmpty && snapshot.connectionState == ConnectionState.done) {
@@ -129,7 +129,9 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                                   MaterialPageRoute(
                                     builder: (context) => MatchDetails(summonerMatchInfo: matchHistory[index]),),
                                 );},
-                                child: MatchPreview(summonerMatchInfo: matchHistory[index])
+                                child: MatchPreview(
+                                    matchParticipant: matchHistory[index].getParticipantWithSummonerPuuid(widget.summoner.getSummonerPuuid()!),
+                                    match: matchHistory[index])
                             );
                         }),
                         Container(
@@ -152,7 +154,10 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                             shrinkWrap: true,
                             itemCount: matchHistory.length,
                             itemBuilder: (context, index) {
-                              return MatchPreview(summonerMatchInfo: matchHistory[index]);
+                              return MatchPreview(
+                                  matchParticipant: matchHistory[index].getParticipantWithSummonerPuuid(widget.summoner.getSummonerPuuid()!),
+                                  match: matchHistory[index]
+                              );
                             }),
                         Container(
                           margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
