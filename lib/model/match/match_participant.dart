@@ -26,7 +26,7 @@ class MatchParticipant {
 
   String getKDA() {
     if (deaths == 0) {
-      return "0";
+      return "Perfect";
     }
 
     return ((kills + assists) / deaths).toStringAsFixed(2);
