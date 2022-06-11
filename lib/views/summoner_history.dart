@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:test_project/components/user_header.dart';
 import './match_details.dart';
 import '../components/match_preview.dart';
 import '../views/navigation_drawer.dart';
@@ -68,39 +69,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavigationDrawer(),
-      appBar: AppBar(
-        elevation: 1.0,
-        backgroundColor: Color(0xff263F65),
-        centerTitle: true,
-        title: Container(
-            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: Stack(
-                children: [
-                    CircleAvatar(
-                        backgroundColor: Color(0xffa98101),
-                        radius: 20,
-                        child: CircleAvatar(
-                            radius: 18,
-                            backgroundImage: NetworkImage("http://ddragon.leagueoflegends.com/cdn/12.11.1/img/profileicon/${widget.summoner.summonerIconId}.png"),
-                        )
-                    ),
-                    Positioned(
-                      top: 28.0,
-                      left: 5.0,
-                      child: Container(
-                          width: 30,
-                          height: 15,
-                          color: Color(0xffa98101),
-                          child: Text("${widget.summoner.summonerLevel!}",
-                              style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center,
-                          ),
-                      ),
-                    ),
-                  ],
-            )
-        ),
-      ),
+      appBar: userHeader(widget.summoner.summonerIconId!, widget.summoner.summonerLevel!),
       backgroundColor: Color(0xff263F65),
       body: RefreshIndicator(
         onRefresh: () => refresh(),
@@ -128,7 +97,8 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MatchDetails(match: matchHistory[index],
-                                      matchParticipant: matchHistory[index].getParticipantWithSummonerPuuid(widget.summoner.getSummonerPuuid()!)
+                                      matchParticipant: matchHistory[index].getParticipantWithSummonerPuuid(widget.summoner.getSummonerPuuid()!),
+                                      summoner: widget.summoner
                                       ,),
                                   ),
                                 );},

@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:test_project/components/match_participant_row.dart';
 import '../model/match/match_participant.dart';
 import '../model/match/match.dart';
+import '../model/summoner.dart';
+import 'navigation_drawer.dart';
+import '../components/user_header.dart';
 
 class MatchDetails extends StatelessWidget {
   const MatchDetails({Key? key,
     required this.match,
-    required this.matchParticipant}) : super(key: key);
+    required this.matchParticipant,
+    required this.summoner}) : super(key: key);
+
 
   final Match match;
   final MatchParticipant matchParticipant;
+  final Summoner summoner;
   static const Color winnerColor = Color(0xff92DEF6);
   static const Color looserColor = Color(0xffFB9191);
   static const Color playerWinnerColor = Color(0xff456bf8);
@@ -20,8 +26,9 @@ class MatchDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xff263F65),
+        drawer: NavigationDrawer(),
+        appBar: userHeader(summoner.summonerIconId!, summoner.summonerLevel!),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
