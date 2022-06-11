@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
-import '../model/summoner_match_info.dart';
+import '../model/match/match_participant.dart';
+import '../model/match/match.dart';
 import './item.dart';
 
 class MatchPreview extends StatelessWidget {
-  final SummonerMatchInfo summonerMatchInfo;
+  final MatchParticipant matchParticipant;
+  final Match match;
 
   MatchPreview({
     Key? key,
-    required this.summonerMatchInfo
+    required this.matchParticipant,
+    required this.match
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: summonerMatchInfo.won ? Color(0xff92DEF6) : Color(0xffFB9191),
+      color: matchParticipant.win ? Color(0xff92DEF6) : Color(0xffFB9191),
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
       child: Row(
@@ -22,7 +25,7 @@ class MatchPreview extends StatelessWidget {
           Container(
             margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: Image.network(
-                'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/champion/${summonerMatchInfo.championName}.png',
+                'http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${matchParticipant.championName}.png',
                 width: 70,
                 height: 70
             )
@@ -31,8 +34,8 @@ class MatchPreview extends StatelessWidget {
             constraints: BoxConstraints(minWidth: 90, maxWidth: 90),
             child: Column(
               children: <Widget>[
-                Text(summonerMatchInfo.getScoreAsString(), style: Theme.of(context).textTheme.headline4),
-                Text("KDA: ${summonerMatchInfo.getKDA()}", style: Theme.of(context).textTheme.headline5),
+                Text(matchParticipant.getScoreAsString(), style: Theme.of(context).textTheme.headline4),
+                Text("KDA: ${matchParticipant.getKDA()}", style: Theme.of(context).textTheme.headline5),
               ]
             ),
           ),
@@ -42,16 +45,16 @@ class MatchPreview extends StatelessWidget {
                   children: <Widget> [
                     Row(
                         children: <Widget>[
-                          Item(itemId: summonerMatchInfo.build[0], size: 27),
-                          Item(itemId: summonerMatchInfo.build[1], size: 27),
-                          Item(itemId: summonerMatchInfo.build[2], size: 27)
+                          Item(itemId: matchParticipant.build[0], size: 27),
+                          Item(itemId: matchParticipant.build[1], size: 27),
+                          Item(itemId: matchParticipant.build[2], size: 27)
                         ]
                     ),
                     Row(
                         children: <Widget>[
-                          Item(itemId: summonerMatchInfo.build[3], size: 27),
-                          Item(itemId: summonerMatchInfo.build[4], size: 27),
-                          Item(itemId: summonerMatchInfo.build[5], size: 27)
+                          Item(itemId: matchParticipant.build[3], size: 27),
+                          Item(itemId: matchParticipant.build[4], size: 27),
+                          Item(itemId: matchParticipant.build[5], size: 27)
                         ]
                     )
                   ]
@@ -61,8 +64,8 @@ class MatchPreview extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
             child: Column(
               children: <Widget>[
-                Text(summonerMatchInfo.gamemode!, style: Theme.of(context).textTheme.headline4),
-                Text(summonerMatchInfo.getDateAsString(), style: Theme.of(context).textTheme.headline5)
+                Text(match.gameMode, style: Theme.of(context).textTheme.headline4),
+                Text(match.getDateAsString(), style: Theme.of(context).textTheme.headline5)
               ],
             )
           ),

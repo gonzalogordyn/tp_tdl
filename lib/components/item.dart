@@ -30,7 +30,7 @@ class Item extends StatelessWidget {
       );
     } else {
       return Image.network(
-          'http://ddragon.leagueoflegends.com/cdn/12.10.1/img/item/$itemId.png',
+          'http://ddragon.leagueoflegends.com/cdn/12.11.1/img/item/$itemId.png',
           width: size,
           height: size
       );
