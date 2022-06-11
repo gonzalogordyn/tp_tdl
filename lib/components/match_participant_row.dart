@@ -39,13 +39,13 @@ class MatchParticipantRow extends StatelessWidget {
               // Text("runas"),
               // Text("summoners"),
               SizedBox(width: 5),
-              Text(summonerName),
+              Text(summonerName, style: Theme.of(context).textTheme.headline4),
               Expanded(child: SizedBox()),
 
               Column (
                 children: [
-                  Text(score),
-                  Text("$kda KDA")
+                  Text(score, style: Theme.of(context).textTheme.bodyLarge),
+                  Text("KDA: $kda", style: Theme.of(context).textTheme.caption)
                 ],
               ),
               SizedBox(width: 5),
@@ -53,16 +53,16 @@ class MatchParticipantRow extends StatelessWidget {
                   children: [
                     Row(
                         children: <Widget>[
-                          Item(itemId: items[0], size: 15),
-                          Item(itemId: items[1], size: 15),
-                          Item(itemId: items[2], size: 15)
+                          Item(itemId: items[0], size: 20),
+                          Item(itemId: items[1], size: 20),
+                          Item(itemId: items[2], size: 20)
                         ]
                     ),
                     Row(
                         children: <Widget>[
-                          Item(itemId: items[3], size: 15),
-                          Item(itemId: items[4], size: 15),
-                          Item(itemId: items[5], size: 15)
+                          Item(itemId: items[3], size: 20),
+                          Item(itemId: items[4], size: 20),
+                          Item(itemId: items[5], size: 20)
                         ]
                     ),
                   ]
