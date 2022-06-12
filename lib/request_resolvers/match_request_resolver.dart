@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-3e66d13e-6a05-459f-b2a3-30caaed26dba";
+const String apiKey = "RGAPI-dd353d72-0c6d-43b0-9bf3-587f10d28b03";
 
 Future<List<Match>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
   var matchIds = await fetchMatchIds(summonerPuuid, start, count);

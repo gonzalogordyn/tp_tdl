@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
 
-// Easiest way I found to do this...
+enum Menu { itemOne, itemTwo, itemThree }
+
 AppBar userHeader(int summonerIconId, int summonerLevel) {
   return AppBar(
     elevation: 1.0,
     backgroundColor: Color(0xff263F65),
     centerTitle: true,
+    actions: <Widget>[
+      PopupMenuButton<Menu>(
+          onSelected: (Menu item) {
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
+            const PopupMenuItem<Menu>(
+              value: Menu.itemOne,
+              child: Text('Refresh'),
+            ),
+            const PopupMenuItem<Menu>(
+              value: Menu.itemTwo,
+              child: Text('Live game'),
+            ),
+            const PopupMenuItem<Menu>(
+              value: Menu.itemThree,
+              child: Text('Statistics'),
+            ),
+          ])
+    ],
     title: Container(
         padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
         child: Stack(
