@@ -77,6 +77,7 @@ class MatchSummary extends StatelessWidget {
   }
 
   List<MatchParticipant> _orderParticipantsByTeamAndPosition() {
+    // TODO: Fix. This fails if it's an ARAM (probably because it doesn't return positions...)
     List<MatchParticipant> orderedList = [];
     bool playerWin = matchParticipant.win;
     orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "TOP" && participant.win == playerWin));
