@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/components/match_participant_row.dart';
 import '../model/match/match_participant.dart';
 import '../model/match/match.dart';
 import '../model/summoner.dart';
 import 'navigation_drawer.dart';
 import '../components/user_header.dart';
+import '../components/match_details/match_summary.dart';
 
 class MatchDetails extends StatelessWidget {
   const MatchDetails({Key? key,
@@ -28,81 +28,9 @@ class MatchDetails extends StatelessWidget {
         backgroundColor: const Color(0xff263F65),
         drawer: NavigationDrawer(),
         appBar: userHeader(summoner.summonerIconId!, summoner.summonerLevel!),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      var currentParticipant = _orderParticipantsByTeamAndPosition()[index];
-                      return MatchParticipantRow(
-                          color: _getColor(currentParticipant),
-                          championName: currentParticipant.championName,
-                          mainRune: "",
-                          secondaryRune: "",
-                          summonerName: currentParticipant.summonerName,
-                          score: currentParticipant.getScoreAsString(),
-                          kda: currentParticipant.getKDA(),
-                          items: currentParticipant.build
-                      );
-                    }),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      var currentParticipant = _orderParticipantsByTeamAndPosition()[index+5];
-                      return MatchParticipantRow(
-                          color: _getColor(currentParticipant),
-                          championName: currentParticipant.championName,
-                          mainRune: "",
-                          secondaryRune: "",
-                          summonerName: currentParticipant.summonerName,
-                          score: currentParticipant.getScoreAsString(),
-                          kda: currentParticipant.getKDA(),
-                          items: currentParticipant.build
-                      );
-                    }),
-              ],
-
-            )
-          ],
-        )
+        body: MatchSummary(matchParticipant: matchParticipant,
+            match: match,
+            summoner: summoner),
     );
   }
-
-  List<MatchParticipant> _orderParticipantsByTeamAndPosition() {
-    List<MatchParticipant> orderedList = [];
-    bool playerWin = matchParticipant.win;
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "TOP" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "JUNGLE" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "MIDDLE" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "BOTTOM" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "UTILITY" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "TOP" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "JUNGLE" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "MIDDLE" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "BOTTOM" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "UTILITY" && participant.win != playerWin));
-    return orderedList;
-  }
-
-  Color _getColor(MatchParticipant currentParticipant) {
-    var winner = currentParticipant.summonerPuuid == matchParticipant.summonerPuuid ? playerWinnerColor : winnerColor;
-    var looser = currentParticipant.summonerPuuid == matchParticipant.summonerPuuid ? playerLooserColor : looserColor;
-    return currentParticipant.win ? winner : looser;
-  }
-
 }

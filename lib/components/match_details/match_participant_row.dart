@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/item.dart';
+import '../item.dart';
 
 
 class MatchParticipantRow extends StatelessWidget {
