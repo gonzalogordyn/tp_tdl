@@ -8,72 +8,37 @@ class MatchDetailsHeader extends StatelessWidget {
     return Row(
       children: [
         Expanded(child: SizedBox()),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-          child: SizedBox(
-            width: 110,
-            child:  TextButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Color(0xff05aefc)
-              ),
-              onPressed: () => {print("Pressed summary")},
-              child: Text(
-                'Summary',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                ),
-              ),
-            ),
-          ),
-        ),
+        buildButton("Summary"),
         Expanded(child: SizedBox()),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-          child: SizedBox(
-            width: 110,
-            child:  TextButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Color(0xff05aefc)
-              ),
-              onPressed: () =>  {print("Details")},
-              child: Text(
-                'Details',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                ),
-              ),
-            ),
-          ),
-        ),
+        buildButton("Details"),
         Expanded(child: SizedBox()),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-          child: SizedBox(
-            width: 110,
-            child:  TextButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Color(0xff05aefc)
-              ),
-              onPressed: () =>  {print("Build")},
-              child: Text(
-                'Build',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                ),
-              ),
-            ),
-          ),
-        ),
+        buildButton("Build"),
         Expanded(child: SizedBox()),
       ]
     );
   }
 
+  Widget buildButton(String text) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+      child: SizedBox(
+        width: 110,
+        child:  TextButton(
+          style: ElevatedButton.styleFrom(
+              primary: Color(0xff05aefc)
+          ),
+          onPressed: () => {print("Pressed $text")},
+          child: Text(
+            text,
+            style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
 }
