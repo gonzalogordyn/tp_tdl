@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MatchDetailsHeader extends StatelessWidget {
-  const MatchDetailsHeader({Key? key}) : super(key: key);
+  final Function(String) handleButton;
+  const MatchDetailsHeader({Key? key, required this.handleButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class MatchDetailsHeader extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               primary: Color(0xff05aefc)
           ),
-          onPressed: () => {print("Pressed $text")},
+          onPressed: () => {handleButton(text)},
           child: Text(
             text,
             style: TextStyle(

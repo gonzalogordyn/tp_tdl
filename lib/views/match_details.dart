@@ -11,9 +11,9 @@ class MatchDetails extends StatefulWidget {
   final Match match;
   final MatchParticipant matchParticipant;
   final Summoner summoner;
-  final String display = "MATCH_SUMMARY";
+  String display = "Summary";
 
-  const MatchDetails({Key? key,
+  MatchDetails({Key? key,
     required this.match,
     required this.matchParticipant,
     required this.summoner}) : super(key: key);
@@ -23,6 +23,10 @@ class MatchDetails extends StatefulWidget {
 }
 
 class _MatchDetails extends State<MatchDetails> {
+
+  void handleMatchDetailsButton(String text) {
+    setState(() {widget.display = text;});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,7 @@ class _MatchDetails extends State<MatchDetails> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 10,),
-              MatchDetailsHeader(),
+              MatchDetailsHeader(handleButton: handleMatchDetailsButton),
               SizedBox(height: 10,),
               selectDisplay(),
               ]
@@ -44,9 +48,14 @@ class _MatchDetails extends State<MatchDetails> {
 
   Widget selectDisplay() {
     switch(widget.display) {
-      case "MATCH_SUMMARY": {
+      case "Summary": {
         return MatchSummary(matchParticipant: widget.matchParticipant,
             match: widget.match,
+            summoner: widget.summoner);
+      }
+      case "Details": {
+        return MatchDetails(match: widget.match,
+            matchParticipant: widget.matchParticipant,
             summoner: widget.summoner);
       }
       default: {
