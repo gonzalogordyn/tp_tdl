@@ -44,9 +44,15 @@ Future<Match> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async
     "X-Riot-Token": apiKey
   });
 
+  String timelineUrl = "https://americas.api.riotgames.com/lol/match/v5/matches/$matchId/timeline";
+  var timelineRes = await http.get(Uri.parse(timelineUrl), headers: {
+    "X-Riot-Token": apiKey
+  });
+
   Map<String, dynamic> parsedJson = jsonDecode(res.body);
+  Map<String, dynamic> timelineJson = jsonDecode(timelineRes.body);
   if (res.statusCode == 200) {
-    return buildMatchFromJson(parsedJson);
+    return buildMatchFromJson(parsedJson, timelineJson);
   } else {
     throw Exception('An error occurred fetching the match data with id $matchId. Please try again later. ${res.body}');
   }
