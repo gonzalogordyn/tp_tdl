@@ -7,13 +7,18 @@ class MatchAnalysis extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final List<ChartData> data = [ChartData(x: 100, y: 1),
-      ChartData(x: 200, y: 2),
-      ChartData(x: 300, y: 3)];
+    final List<ChartData> data = [ChartData(x: "Veigar", y: 1),
+      ChartData(x: "Aatrox", y: 2),
+      ChartData(x: "Garen", y: 3)];
 
     return SfCartesianChart(
-              series: <ChartSeries>[
-                BarSeries<ChartData, double>(
+              title: ChartTitle(text: "Damage done"),
+              primaryXAxis: CategoryAxis(majorGridLines: MajorGridLines(width: 0),
+                                         axisLine: AxisLine(width: 0), ),
+              primaryYAxis: NumericAxis(majorGridLines: MajorGridLines(width: 0),
+                                        axisLine: AxisLine(width: 0)),
+        series: <ChartSeries>[
+                BarSeries<ChartData, String>(
                     dataSource: data,
                     xValueMapper: (ChartData data, _) => data.x,
                     yValueMapper: (ChartData data, _) => data.y,
@@ -25,7 +30,7 @@ class MatchAnalysis extends StatelessWidget {
 }
 
 class ChartData {
-  final double x;
+  final String x;
   final double y;
 
   const ChartData({required this.x, required this.y});
