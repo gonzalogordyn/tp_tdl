@@ -5,6 +5,7 @@ import '../model/summoner.dart';
 import 'navigation_drawer.dart';
 import '../components/user_header.dart';
 import '../components/match_details/match_summary.dart';
+import '../components/match_details/match_analysis.dart';
 import '../components/match_details/match_details_header.dart';
 
 class MatchDetails extends StatefulWidget {
@@ -54,9 +55,7 @@ class _MatchDetails extends State<MatchDetails> {
             summoner: widget.summoner);
       }
       case "Details": {
-        return MatchDetails(match: widget.match,
-            matchParticipant: widget.matchParticipant,
-            summoner: widget.summoner);
+        return MatchAnalysis();
       }
       default: {
         throw Exception("Invalid display type for match_details");

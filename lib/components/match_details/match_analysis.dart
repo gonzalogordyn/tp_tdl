@@ -11,22 +11,16 @@ class MatchAnalysis extends StatelessWidget {
       ChartData(x: 200, y: 2),
       ChartData(x: 300, y: 3)];
 
-    return Scaffold(
-        body: Center(
-            child: Container(
-                child: SfCartesianChart(
-                    series: <ChartSeries>[
-                      BarSeries<ChartData, double>(
-                          dataSource: data,
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y,
-                          borderRadius: BorderRadius.all(Radius.circular(15))
-                      )
-                    ]
+    return SfCartesianChart(
+              series: <ChartSeries>[
+                BarSeries<ChartData, double>(
+                    dataSource: data,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y,
+                    borderRadius: BorderRadius.all(Radius.circular(15))
                 )
-            )
-        )
-    );
+              ]
+            );
   }
 }
 
