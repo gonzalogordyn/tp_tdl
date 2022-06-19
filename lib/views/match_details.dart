@@ -55,7 +55,8 @@ class _MatchDetails extends State<MatchDetails> {
             summoner: widget.summoner);
       }
       case "Details": {
-        return MatchAnalysis();
+        return MatchAnalysis(matchParticipant: widget.matchParticipant,
+            match: widget.match);
       }
       default: {
         throw Exception("Invalid display type for match_details");
