@@ -16,13 +16,16 @@ class MatchAnalysis extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-              children: [
-                buildDataBar("Damage dealt", buildTotalDamageDealtToChampions()),
-                buildDataBar("Damage taken", buildDamageTakenToChampions()),
-                buildDataBar("Gold earned", buildGoldEarned()),
-                buildDataBar("CS", buildCS()),
-              ],
+    return Expanded(child: SingleChildScrollView(
+      child: Column(
+        children: [
+          buildDataBar("Damage dealt", buildTotalDamageDealtToChampions()),
+          buildDataBar("Damage taken", buildDamageTakenToChampions()),
+          buildDataBar("Gold earned", buildGoldEarned()),
+          buildDataBar("CS", buildCS()),
+        ],
+      ),
+    )
     );
   }
 
@@ -67,27 +70,27 @@ class MatchAnalysis extends StatelessWidget {
           )),
           plotAreaBorderWidth: 0,
           primaryXAxis: CategoryAxis(isVisible: true,
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontFamily: GoogleFonts.inter().fontFamily,
-              color: Color(0xffffffff),
-            )
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontFamily: GoogleFonts.inter().fontFamily,
+                color: Color(0xffffffff),
+              )
           ),
           primaryYAxis: NumericAxis(isVisible: false),
           series: <ChartSeries>[
             BarSeries<ChartData, String>(
-              dataSource: data,
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y,
-              pointColorMapper: (ChartData data, _) => data.color,
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              dataLabelSettings: DataLabelSettings(isVisible: true,
-                textStyle:TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontFamily: GoogleFonts.inter().fontFamily,
-                  color: Color(0xffffffff),
+                dataSource: data,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y,
+                pointColorMapper: (ChartData data, _) => data.color,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                dataLabelSettings: DataLabelSettings(isVisible: true,
+                    textStyle:TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontFamily: GoogleFonts.inter().fontFamily,
+                      color: Color(0xffffffff),
+                    )
                 )
-              )
             )
           ]
       );
