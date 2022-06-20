@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../model/match/match_participant.dart';
 import '../../model/match/match.dart';
@@ -15,13 +16,14 @@ class MatchAnalysis extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final List<ChartData> damageDealtData = buildTotalDamageDealtToChampions();
     return Column(
               children: [
-                buildDataBar(damageDealtData),
+                buildDataBar("Damage dealt", buildTotalDamageDealtToChampions()),
+                buildDataBar("Damage taken", buildDamageTakenToChampions()),
+                buildDataBar("Gold earned", buildGoldEarned()),
+                buildDataBar("CS", buildCS()),
               ],
-          );
+    );
   }
 
   List<ChartData> buildTotalDamageDealtToChampions() {
@@ -32,10 +34,45 @@ class MatchAnalysis extends StatelessWidget {
     return participants;
   }
 
-  SfCartesianChart buildDataBar(List<ChartData> data) {
+  List<ChartData> buildDamageTakenToChampions() {
+    List<ChartData> participants = match.participants
+        .map((e) => ChartData(x: e.championName, y: e.totalDamageTaken, color: (e.win ? winColor : looseColor)))
+        .toList();
+    participants.sort((a, b) => a.y.compareTo(b.y));
+    return participants;
+  }
+
+  List<ChartData> buildGoldEarned() {
+    List<ChartData> participants = match.participants
+        .map((e) => ChartData(x: e.championName, y: e.goldEarned, color: (e.win ? winColor : looseColor)))
+        .toList();
+    participants.sort((a, b) => a.y.compareTo(b.y));
+    return participants;
+  }
+
+  List<ChartData> buildCS() {
+    List<ChartData> participants = match.participants
+        .map((e) => ChartData(x: e.championName, y: e.minionsKilled + e.jungleMinionsKilled, color: (e.win ? winColor : looseColor)))
+        .toList();
+    participants.sort((a, b) => a.y.compareTo(b.y));
+    return participants;
+  }
+
+  SfCartesianChart buildDataBar(String title, List<ChartData> data) {
     return SfCartesianChart(
+          title: ChartTitle(text: title, textStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontFamily: GoogleFonts.inter().fontFamily,
+            color: Color(0xffffffff),
+          )),
           plotAreaBorderWidth: 0,
-          primaryXAxis: CategoryAxis(isVisible: true),
+          primaryXAxis: CategoryAxis(isVisible: true,
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontFamily: GoogleFonts.inter().fontFamily,
+              color: Color(0xffffffff),
+            )
+          ),
           primaryYAxis: NumericAxis(isVisible: false),
           series: <ChartSeries>[
             BarSeries<ChartData, String>(
@@ -44,7 +81,13 @@ class MatchAnalysis extends StatelessWidget {
               yValueMapper: (ChartData data, _) => data.y,
               pointColorMapper: (ChartData data, _) => data.color,
               borderRadius: BorderRadius.all(Radius.circular(8)),
-              dataLabelSettings: DataLabelSettings(isVisible: true)
+              dataLabelSettings: DataLabelSettings(isVisible: true,
+                textStyle:TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontFamily: GoogleFonts.inter().fontFamily,
+                  color: Color(0xffffffff),
+                )
+              )
             )
           ]
       );
