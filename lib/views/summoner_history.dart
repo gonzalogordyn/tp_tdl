@@ -4,10 +4,11 @@ import 'package:test_project/components/user_header.dart';
 import './match_details.dart';
 import '../components/match_preview.dart';
 import '../views/navigation_drawer.dart';
-import '../model/summoner.dart';
+import '../model/summoner/summoner.dart';
 import '../components/summoner_widget.dart';
 import '../request_resolvers/match_request_resolver.dart';
 import '../model/match/match.dart';
+import './summoner_stats.dart';
 
 class SummonerHistory extends StatefulWidget {
   final Summoner summoner;
@@ -81,12 +82,49 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                 future: matchHistoryInfo,
                 builder: (BuildContext context, AsyncSnapshot<List<Match>> snapshot) {
                   if(snapshot.hasError) {
-                    return Text("${snapshot.error}", style: TextStyle(color: Colors.white));
+                    return Text("${snapshot.error}", style: TextStyle(color: Colors.white)); //TODO: poner mensaje de error
                   } else if(matchHistory.isEmpty && snapshot.connectionState == ConnectionState.done) {
                     return Text("We couldn't find any games on your match history", style: TextStyle(color: Colors.white));
                   } else if(matchHistory.isNotEmpty && snapshot.connectionState == ConnectionState.done) {
                     return Column(
                       children: <Widget>[
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          decoration: BoxDecoration(
+                              color: Color(0xffeaeaea),
+                              border: Border.all(
+                                color: Color(0xff333333),
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                TextButton(
+                                  child: Text("Show statistics", style: TextStyle(fontSize: 22),),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SummonerStats(
+                                          summoner: widget.summoner,
+                                          matchHistory: matchHistory,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right,
+                                  color: Color(0xff05aefc),
+                                  size: 30,
+                                ),
+                              ]
+                          ),
+                        ),
                         ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,

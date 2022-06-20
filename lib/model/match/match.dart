@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:test_project/model/match/match_participant.dart';
 import 'package:intl/intl.dart';
 
@@ -9,7 +10,19 @@ class Match{
   Match({required this.participants, required this.gameMode, required this.gameEndTimestamp});
 
   getParticipantWithSummonerPuuid(String summonerPuuid) {
-    return participants.firstWhere((participant) => participant.summonerPuuid == summonerPuuid);
+    try {
+      return participants.firstWhere((participant) => participant.summonerPuuid == summonerPuuid);
+    } on StateError catch (_) {
+      return null;
+    }
+  }
+
+  getParticipantWithSummonerName(String summonerName) {
+    try {
+      return participants.firstWhere((participant) => participant.summonerName == summonerName);
+    } on StateError catch (_) {
+      return null;
+    }
   }
 
   String getDateAsString() {

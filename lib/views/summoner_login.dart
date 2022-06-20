@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../model/summoner.dart';
+import '../model/summoner/summoner.dart';
 import '../views/summoner_history.dart';
 import '../request_resolvers/summoner_request_resolver.dart';
 import 'dart:convert';
@@ -125,6 +125,8 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
 
                 final prefs = await SharedPreferences.getInstance();
                 Summoner summoner = await fetchSummonerInfo(summonerName);
+                summoner.addLeagueInfo(await fetchSummonerLeagueInfo(summoner.summonerId!));
+
                 prefs.setString("accounts", summoner.stringify());
 
                 Navigator.push(context,

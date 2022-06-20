@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:test_project/components/match_participant_row.dart';
 import '../model/match/match_participant.dart';
 import '../model/match/match.dart';
-import '../model/summoner.dart';
+import '../model/summoner/summoner.dart';
 import 'navigation_drawer.dart';
 import '../components/user_header.dart';
 

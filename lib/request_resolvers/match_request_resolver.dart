@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-3e66d13e-6a05-459f-b2a3-30caaed26dba";
+const String apiKey = "RGAPI-b34ceec5-f8c5-45dd-93a8-242b16255e14";
 
+//TODO: handle error
 Future<List<Match>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
   var matchIds = await fetchMatchIds(summonerPuuid, start, count);
   List<Match> matchHistoryInfo = [];
@@ -23,6 +24,7 @@ Future<List<Match>> fetchMatchHistory(String summonerPuuid, int start, int count
   return matchHistoryInfo;
 }
 
+//TODO: handle error
 Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) async {
   String base = "americas.api.riotgames.com";
   String endpoint = "/lol/match/v5/matches/by-puuid/$summonerPuuid/ids";
@@ -33,8 +35,8 @@ Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) 
   var matchIdsResult = await http.get(Uri.https(base, endpoint, params), headers: {
     "X-Riot-Token": apiKey
   });
-  await Future.delayed(Duration(seconds: 1));
-
+  await Future.delayed(Duration(seconds: 1)); //TODO: remove
+  print(matchIdsResult.body);
   return jsonDecode(matchIdsResult.body);
 }
 
