@@ -88,42 +88,42 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                   } else if(matchHistory.isNotEmpty && snapshot.connectionState == ConnectionState.done) {
                     return Column(
                       children: <Widget>[
-                        Container(
-                          height: 50,
-                          width: double.infinity,
-                          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                              color: Color(0xffeaeaea),
-                              border: Border.all(
-                                color: Color(0xff333333),
+                        TextButton(
+                          child: Container(
+                            height: 50,
+                            width: double.infinity,
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                                color: Color(0xffeaeaea),
+                                border: Border.all(
+                                  color: Color(0xff333333),
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(5))
+                            ),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: const <Widget>[
+                                  Text("Show statistics", style: TextStyle(fontSize: 22)),
+                                  Icon(
+                                    Icons.keyboard_arrow_right,
+                                    color: Color(0xff05aefc),
+                                    size: 30,
+                                  ),
+                                ]
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SummonerStats(
+                                  summoner: widget.summoner,
+                                  matchHistory: matchHistory,
+                                ),
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(5))
-                          ),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                TextButton(
-                                  child: Text("Show statistics", style: TextStyle(fontSize: 22),),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SummonerStats(
-                                          summoner: widget.summoner,
-                                          matchHistory: matchHistory,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Icon(
-                                  Icons.keyboard_arrow_right,
-                                  color: Color(0xff05aefc),
-                                  size: 30,
-                                ),
-                              ]
-                          ),
+                            );
+                          },
                         ),
                         ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
