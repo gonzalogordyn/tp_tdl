@@ -7,8 +7,8 @@ import '../../model/match/match.dart';
 class MatchAnalysis extends StatelessWidget {
   final Match match;
   final MatchParticipant matchParticipant;
-  static const Color winColor = Color(0xff92DEF6);
-  static const Color looseColor = Color(0xffFB9191);
+  static const Color winColor = Color(0xff92c1f6);
+  static const Color looseColor = Color(0xfffc6161);
 
   const MatchAnalysis({Key? key,
     required this.match,
