@@ -64,14 +64,14 @@ class MatchAnalysis extends StatelessWidget {
   SfCartesianChart buildDataBar(String title, List<ChartData> data) {
     return SfCartesianChart(
           title: ChartTitle(text: title, textStyle: TextStyle(
-            fontWeight: FontWeight.normal,
+            fontWeight: FontWeight.bold,
             fontFamily: GoogleFonts.inter().fontFamily,
             color: Color(0xffffffff),
           )),
           plotAreaBorderWidth: 0,
           primaryXAxis: CategoryAxis(isVisible: true,
               labelStyle: TextStyle(
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
                 fontFamily: GoogleFonts.inter().fontFamily,
                 color: Color(0xffffffff),
               )
@@ -85,8 +85,9 @@ class MatchAnalysis extends StatelessWidget {
                 pointColorMapper: (ChartData data, _) => data.color,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 dataLabelSettings: DataLabelSettings(isVisible: true,
+                    labelAlignment: ChartDataLabelAlignment.top,
                     textStyle:TextStyle(
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                       fontFamily: GoogleFonts.inter().fontFamily,
                       color: Color(0xffffffff),
                     )
