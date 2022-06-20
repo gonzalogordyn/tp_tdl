@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/match/match_participant.dart';
 import '../../model/match/match.dart';
-import '../../model/summoner.dart';
+import '../../model/summoner/summoner.dart';
 import 'match_participant_row.dart';
 
 class MatchSummary extends StatelessWidget {

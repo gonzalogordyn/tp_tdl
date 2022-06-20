@@ -1,9 +1,10 @@
 import 'dart:convert';
-import '../model/summoner.dart';
+import '../model/summoner/league.dart';
+import '../model/summoner/summoner.dart';
 import 'package:http/http.dart' as http;
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-dd353d72-0c6d-43b0-9bf3-587f10d28b03";
+const String apiKey = "RGAPI-b34ceec5-f8c5-45dd-93a8-242b16255e14";
 
 Future<Summoner> fetchSummonerInfo(String summonerName) async {
 
@@ -19,5 +20,28 @@ Future<Summoner> fetchSummonerInfo(String summonerName) async {
     return Summoner.fromJson(parsedJson);
   } else {
     throw Exception('An error occurred fetching the summoner data with name $summonerName. Please try again later. ${res.body}');
+  }
+}
+
+Future<List<League>> fetchSummonerLeagueInfo(String summonerId) async {
+  // TODO: que cambie url segun el server elegido
+
+  String url = "https://la2.api.riotgames.com/lol/league/v4/entries/by-summoner/$summonerId";
+  var res = await http.get(Uri.parse(url), headers: {
+    "X-Riot-Token": apiKey
+  });
+
+  List<dynamic> parsedJson = jsonDecode(res.body);
+  if (res.statusCode == 200) {
+    List<League> leagues = [];
+
+    for(dynamic leagueInfo in parsedJson) {
+      leagues.add(League.fromJson(leagueInfo));
+    }
+    print("SUMMONER LEAGUES:");
+    print(leagues.length);
+    return leagues;
+  } else {
+    throw Exception('An error occurred fetching the summoner league info with id $summonerId. Please try again later. ${res.body}');
   }
 }

@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import '../model/summoner.dart';
+import '../model/summoner/summoner.dart';
 
 class SummonerWidget extends StatelessWidget {
   final Summoner summoner;

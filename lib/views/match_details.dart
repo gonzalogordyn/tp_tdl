@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/match/match_participant.dart';
 import '../model/match/match.dart';
-import '../model/summoner.dart';
+import '../model/summoner/summoner.dart';
 import 'navigation_drawer.dart';
 import '../components/user_header.dart';
 import '../components/match_details/match_summary.dart';
