@@ -6,8 +6,8 @@ import '../../model/match/match.dart';
 class MatchAnalysis extends StatelessWidget {
   final Match match;
   final MatchParticipant matchParticipant;
-  static const Color winColor = Color(0xff456bf8);
-  static const Color looseColor = Color(0xffff4040);
+  static const Color winColor = Color(0xff92DEF6);
+  static const Color looseColor = Color(0xffFB9191);
 
   const MatchAnalysis({Key? key,
     required this.match,
@@ -43,7 +43,8 @@ class MatchAnalysis extends StatelessWidget {
               xValueMapper: (ChartData data, _) => data.x,
               yValueMapper: (ChartData data, _) => data.y,
               pointColorMapper: (ChartData data, _) => data.color,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              dataLabelSettings: DataLabelSettings(isVisible: true)
             )
           ]
       );
