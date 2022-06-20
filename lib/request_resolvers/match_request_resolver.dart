@@ -7,7 +7,6 @@ import 'dart:convert';
 //TODO: Mover API_KEY a un archivo de configuracion
 const String apiKey = "RGAPI-b34ceec5-f8c5-45dd-93a8-242b16255e14";
 
-//TODO: handle error
 Future<List<Match>> fetchMatchHistory(String summonerPuuid, int start, int count) async {
   var matchIds = await fetchMatchIds(summonerPuuid, start, count);
   List<Match> matchHistoryInfo = [];
@@ -24,7 +23,6 @@ Future<List<Match>> fetchMatchHistory(String summonerPuuid, int start, int count
   return matchHistoryInfo;
 }
 
-//TODO: handle error
 Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) async {
   String base = "americas.api.riotgames.com";
   String endpoint = "/lol/match/v5/matches/by-puuid/$summonerPuuid/ids";
@@ -35,8 +33,8 @@ Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count) 
   var matchIdsResult = await http.get(Uri.https(base, endpoint, params), headers: {
     "X-Riot-Token": apiKey
   });
-  await Future.delayed(Duration(seconds: 1)); //TODO: remove
-  print(matchIdsResult.body);
+  await Future.delayed(Duration(seconds: 1));
+
   return jsonDecode(matchIdsResult.body);
 }
 
@@ -46,9 +44,15 @@ Future<Match> fetchSummonerMatchInfo(String summonerPuuid, String matchId) async
     "X-Riot-Token": apiKey
   });
 
+  String timelineUrl = "https://americas.api.riotgames.com/lol/match/v5/matches/$matchId/timeline";
+  var timelineRes = await http.get(Uri.parse(timelineUrl), headers: {
+    "X-Riot-Token": apiKey
+  });
+
   Map<String, dynamic> parsedJson = jsonDecode(res.body);
+  Map<String, dynamic> timelineJson = jsonDecode(timelineRes.body);
   if (res.statusCode == 200) {
-    return buildMatchFromJson(parsedJson);
+    return buildMatchFromJson(parsedJson, timelineJson);
   } else {
     throw Exception('An error occurred fetching the match data with id $matchId. Please try again later. ${res.body}');
   }

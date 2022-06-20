@@ -8,6 +8,11 @@ class MatchParticipant {
   final List<int> build;
   final bool win;
   final String teamPosition;
+  final int totalDamageDealtToChampions;
+  final int totalDamageTaken;
+  final int goldEarned;
+  final int minionsKilled;
+  final int jungleMinionsKilled;
 
   MatchParticipant({required this.summonerName,
     required this.championName,
@@ -18,6 +23,11 @@ class MatchParticipant {
     required this.assists,
     required this.build,
     required this.teamPosition,
+    required this.totalDamageDealtToChampions,
+    required this.totalDamageTaken,
+    required this.goldEarned,
+    required this.jungleMinionsKilled,
+    required this.minionsKilled
   });
 
   String getScoreAsString() {

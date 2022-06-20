@@ -35,7 +35,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
     super.initState();
 
     //TODO: CAMBIAR SummonerMatchInfo a Match asi se puede usar en la vista de Match
-    setMatchHistory(summonerPuuid);
+    setMatchHistory(widget.summoner.summonerPuuid);
   }
 
   void setMatchHistory(summonerPuuid) {
