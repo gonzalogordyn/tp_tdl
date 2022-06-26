@@ -4,7 +4,7 @@ import '../model/summoner/summoner.dart';
 import 'package:http/http.dart' as http;
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-b34ceec5-f8c5-45dd-93a8-242b16255e14";
+const String apiKey = "RGAPI-4cffd502-45e3-41ef-914b-c32c1b39c5df";
 
 Future<Summoner> fetchSummonerInfo(String summonerName) async {
 
