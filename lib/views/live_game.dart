@@ -64,6 +64,7 @@ class _LiveGameState extends State<LiveGame> {
                         } else if ((liveMatch!.participants).isNotEmpty &&
                             snapshot.connectionState == ConnectionState.done) {
                           return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
@@ -73,6 +74,7 @@ class _LiveGameState extends State<LiveGame> {
                                     LiveMatchParticipant currentParticipant = liveMatch!
                                         .participants[index];
                                     return Container(
+                                      padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
                                       color: Colors.white,
                                       child: Row(
                                         children: [
@@ -99,6 +101,7 @@ class _LiveGameState extends State<LiveGame> {
                                     LiveMatchParticipant currentParticipant = liveMatch!
                                         .participants[index+5];
                                     return Container(
+                                      padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
                                       color: Colors.white,
                                       child: Row(
                                         children: [
