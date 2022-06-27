@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../model/summoner/summoner.dart';
+import '../views/live_game.dart';
 
 class SummonerWidget extends StatelessWidget {
   final Summoner summoner;
@@ -20,7 +21,7 @@ class SummonerWidget extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
             child: Column(
               children: [
-                Image.network("http://ddragon.leagueoflegends.com/cdn/12.11.1/img/profileicon/${summoner.summonerIconId}.png",
+                Image.network("http://ddragon.leagueoflegends.com/cdn/12.12.1/img/profileicon/${summoner.summonerIconId}.png",
                   width: 85,
                   height: 85,
                 ),
@@ -88,7 +89,16 @@ class SummonerWidget extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           primary: Color(0xff05aefc)
                       ),
-                      onPressed: () {  },
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LiveGame(
+                              summonerId: summoner.summonerId,
+                            ),
+                          ),
+                        );
+                      },
                       child: Text(
                         'Live Game',
                         style: TextStyle(

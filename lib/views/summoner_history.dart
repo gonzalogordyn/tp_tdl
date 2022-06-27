@@ -8,6 +8,7 @@ import '../model/summoner/summoner.dart';
 import '../components/summoner_widget.dart';
 import '../request_resolvers/match_request_resolver.dart';
 import '../model/match/match.dart';
+import '../views/live_game.dart';
 import './summoner_stats.dart';
 
 class SummonerHistory extends StatefulWidget {
@@ -24,7 +25,7 @@ class SummonerHistory extends StatefulWidget {
 
 class _SummonerHistoryState extends State<SummonerHistory> {
 
-  final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
+  late final String summonerPuuid;
   List<Match> matchHistory = [];
   late Future<List<Match>> matchHistoryInfo;
 
