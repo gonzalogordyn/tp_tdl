@@ -26,20 +26,3 @@ Future<LiveMatch> fetchLiveMatch(String summonerID) async {
   // }
   return buildLiveMatchFromJson(parsedJson);
 }
-
-// Future<String> getChampionName(championId) async{
-//   String url = "http://ddragon.leagueoflegends.com/cdn/12.11.1/data/en_US/champion.json";
-//   var res = await http.get(Uri.parse(url), headers: {
-//     "X-Riot-Token": apiKey
-//   });
-//   var parsedJson = jsonDecode(res.body);
-//
-//   Map<String, dynamic> parsedJson = await jsonDecode(response);
-//
-//   if (res.statusCode == 200){
-//       return getChampionNameFromId(parsedJson, championId);
-//   } else {
-//     throw Exception('Something went wrong. ${res.body}');
-//   }
-//   return getChampionNameFromId(parsedJson, championId);
-// }

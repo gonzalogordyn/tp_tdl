@@ -17,6 +17,7 @@ LiveMatch buildLiveMatchFromJson(Map<String, dynamic> liveMatchJson) {
   return LiveMatch(participants: participants,
       gameMode: liveMatchJson["gameMode"],
       gameQueueConfigId: liveMatchJson["gameQueueConfigId"],
+      mapId: liveMatchJson["mapId"],
       bannedChampionsIds: bannedChampionsIds
   );
 }
@@ -30,7 +31,7 @@ LiveMatchParticipant buildLiveMatchParticipantFromJson(Map<String, dynamic> part
     championId: participantJson["championId"],
     profileIconId: participantJson["profileIconId"],
     perkStyle: participantJson["perks"]["perkStyle"],
-    perkSubStyle: participantJson["perks"]["perkSubStyle"]
+    perkSubStyle: participantJson["perks"]["perkSubStyle"],
   );
 }
 
@@ -38,6 +39,6 @@ String getChampionNameFromId(championJson, championId){
     var champ =  championJson["data"].values.firstWhere((champData) {
       return int.parse(champData["key"]) == championId;
     });
-    String name = champ['name'].replaceAll(" ","");
+    String name = champ['id'].replaceAll(" ","");
     return (name.trim());
 }
