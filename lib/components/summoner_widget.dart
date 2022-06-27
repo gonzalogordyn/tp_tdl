@@ -21,7 +21,7 @@ class SummonerWidget extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
             child: Column(
               children: [
-                Image.network("http://ddragon.leagueoflegends.com/cdn/12.11.1/img/profileicon/${summoner.summonerIconId}.png",
+                Image.network("http://ddragon.leagueoflegends.com/cdn/12.12.1/img/profileicon/${summoner.summonerIconId}.png",
                   width: 85,
                   height: 85,
                 ),

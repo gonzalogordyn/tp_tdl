@@ -9,23 +9,20 @@ class ChampionPortrait extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-      return Expanded(
-        flex: 0,
-        child: Image.network(
-            'http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/$championName.png',
-            width: imageSize,
-            height: imageSize,
-            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
-                return SizedBox(
-                    height: imageSize,
-                    width: imageSize,
-                    child: Container(
-                      color: Colors.grey,
-                      child: Icon(Icons.error_outline_rounded)
-                    )
-                );
-            }
-        ),
+      return Image.network(
+          'http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/$championName.png',
+          width: imageSize,
+          height: imageSize,
+          errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
+              return SizedBox(
+                  height: imageSize,
+                  width: imageSize,
+                  child: Container(
+                    color: Colors.grey,
+                    child: Icon(Icons.error_outline_rounded)
+                  )
+              );
+          }
       );
   }
 }
