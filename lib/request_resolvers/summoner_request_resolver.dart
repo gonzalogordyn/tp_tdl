@@ -38,8 +38,7 @@ Future<List<League>> fetchSummonerLeagueInfo(String summonerId) async {
     for(dynamic leagueInfo in parsedJson) {
       leagues.add(League.fromJson(leagueInfo));
     }
-    print("SUMMONER LEAGUES:");
-    print(leagues.length);
+
     return leagues;
   } else {
     throw Exception('An error occurred fetching the summoner league info with id $summonerId. Please try again later. ${res.body}');

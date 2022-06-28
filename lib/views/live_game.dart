@@ -26,11 +26,13 @@ class _LiveGameState extends State<LiveGame> {
   late Future<LiveMatch> liveMatchInfo;
   LiveMatch? liveMatch;
   late Map <String, dynamic> champDataJson;
+  late Map <String, dynamic> summonerSpellJson;
 
   @override
   void initState() {
       super.initState();
       setChampionJson();
+      setSummonerSpellJson();
       setLiveMatch(widget.summonerId);
   }
 
@@ -160,22 +162,41 @@ class _LiveGameState extends State<LiveGame> {
                                       itemCount: 5,
                                       itemBuilder: (context, index) {
                                         LiveMatchParticipant currentParticipant = liveMatch!
-                                            .participants[index];
+                                            .participants[index];currentParticipant.addLeagueInfo();
                                         return Container(
                                           padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
                                           color: Colors.white,
                                           child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
-                                              SizedBox(width: 10),
+                                              SizedBox(width: 2),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                    Image.network(
+                                                        'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell1Id)}.png',
+                                                        width: 19,
+                                                        height: 19,
+                                                    ),
+                                                    SizedBox(height: 2,),
+                                                    Image.network(
+                                                      'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell2Id)}.png',
+                                                      width: 19,
+                                                      height: 19,
+                                                    )
+                                                ],
+                                              ),
+                                              SizedBox(width: 5,),
                                               Text(
                                                 currentParticipant.summonerName,
                                                 style: TextStyle(fontSize: 14.0),
                                               ),
                                               Expanded(child: SizedBox()),
-                                              // Text("Division", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                              // SizedBox(width: 60),
-                                              // Text(currentParticipant.league, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                              Text("${(currentParticipant.getSummonerLeague())!.tier} ${(currentParticipant.getSummonerLeague())!.rank}", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                              SizedBox(width: 30),
+                                              Text("${(currentParticipant.getSummonerLeague())!.wins!.toStringAsFixed(0)}W ${(currentParticipant.getSummonerLeague())!.losses!.toStringAsFixed(0)}L (${(currentParticipant.getSummonerLeague())!.getWinrate().toStringAsFixed(0)})%", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
                                             ],
                                           ),
                                         );
@@ -218,22 +239,39 @@ class _LiveGameState extends State<LiveGame> {
                                       separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
                                       itemBuilder: (context, index) {
                                         LiveMatchParticipant currentParticipant = liveMatch!
-                                            .participants[index+5];
+                                            .participants[index+5]; currentParticipant.addLeagueInfo();
                                         return Container(
                                           padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
                                           color: Colors.white,
                                           child: Row(
                                             children: [
                                               ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
-                                              SizedBox(width: 10),
+                                              SizedBox(width: 2),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  Image.network(
+                                                    'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell1Id)}.png',
+                                                    width: 19,
+                                                    height: 19,
+                                                  ),
+                                                  SizedBox(height: 2,),
+                                                  Image.network(
+                                                    'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell2Id)}.png',
+                                                    width: 19,
+                                                    height: 19,
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(width: 5,),
                                               Text(
                                                 currentParticipant.summonerName,
                                                 style: TextStyle(fontSize: 14.0),
                                               ),
                                               Expanded(child: SizedBox()),
-                                              // Text("Division", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                              // SizedBox(width: 60),
-                                              // Text("Winrate", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                              Text("${(currentParticipant.getSummonerLeague())!.tier} ${(currentParticipant.getSummonerLeague())!.rank}", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                              SizedBox(width: 30),
+                                              Text("${(currentParticipant.getSummonerLeague())!.wins!.toStringAsFixed(0)}W ${(currentParticipant.getSummonerLeague())!.losses!.toStringAsFixed(0)}L (${(currentParticipant.getSummonerLeague())!.getWinrate().toStringAsFixed(0)})%", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
                                             ],
                                           ),
                                         );
@@ -285,6 +323,14 @@ class _LiveGameState extends State<LiveGame> {
 
     setState((){
         champDataJson = champData;
+    });
+  }
+  void setSummonerSpellJson() async{
+    String spellDataJsonFuture = await rootBundle.loadString('assets/summonerSpell.json');
+    Map<String,dynamic> spellData = await jsonDecode(spellDataJsonFuture);
+
+    setState((){
+      summonerSpellJson = spellData;
     });
   }
 }

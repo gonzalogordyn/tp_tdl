@@ -44,3 +44,11 @@ String getChampionNameFromId(championJson, championId){
     String name = champ['id'].replaceAll(" ","");
     return (name.trim());
 }
+
+String getSummonerSpellNameFromId(summonerSpellJson, spellId){
+  var spell =  summonerSpellJson["data"].values.firstWhere((spellData) {
+    return int.parse(spellData["key"]) == spellId;
+  });
+  String name = spell['id'].replaceAll(" ","");
+  return (name.trim());
+}

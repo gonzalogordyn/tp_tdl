@@ -18,7 +18,6 @@ class League {
   });
 
   factory League.fromJson(Map<String, dynamic> data) {
-
     final queueType = _parseQueueType(data["queueType"]);
     final tier = _parseTier(data["tier"]);
     final rank = data["rank"];
@@ -27,13 +26,31 @@ class League {
     final losses = data["losses"];
 
     return League(
-      queueType: queueType,
-      tier: tier,
-      rank: rank,
-      lp: lp,
-      wins: wins,
-      losses: losses
+        queueType: queueType,
+        tier: tier,
+        rank: rank,
+        lp: lp,
+        wins: wins,
+        losses: losses
     );
+  }
+    factory League.unranked() {
+
+      final queueType = "";
+      final tier = "";
+      final rank = "UNRANKED";
+      final lp = 0;
+      final wins = 0;
+      final losses = 0;
+
+      return League(
+          queueType: queueType,
+          tier: tier,
+          rank: rank,
+          lp: lp,
+          wins: wins,
+          losses: losses
+      );
   }
 
   double getWinrate() {
