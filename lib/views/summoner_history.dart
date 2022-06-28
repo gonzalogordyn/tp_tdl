@@ -25,7 +25,7 @@ class SummonerHistory extends StatefulWidget {
 
 class _SummonerHistoryState extends State<SummonerHistory> {
 
-  late final String summonerPuuid;
+  final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
   List<Match> matchHistory = [];
   late Future<List<Match>> matchHistoryInfo;
 

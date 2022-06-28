@@ -1,3 +1,5 @@
+import 'package:test_project/request_resolvers/summoner_request_resolver.dart';
+import '../request_resolvers/summoner_request_resolver.dart';
 import '../model/live_match/live_match_participant.dart';
 import '../model/live_match/live_match.dart';
 

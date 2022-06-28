@@ -1,3 +1,5 @@
+import '../summoner/league.dart';
+
 class LiveMatchParticipant {
   final String summonerName;
   final int championId;
@@ -15,6 +17,6 @@ class LiveMatchParticipant {
     required this.spell2Id,
     required this.profileIconId,
     required this.perkStyle,
-    required this.perkSubStyle
+    required this.perkSubStyle,
   });
 }

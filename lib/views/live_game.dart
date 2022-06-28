@@ -8,6 +8,8 @@ import '../model/live_match/live_match_participant.dart';
 import '../request_resolvers/live_match_request_resolver.dart';
 import '../model/live_match/champion_portrait.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import '../request_resolvers/summoner_request_resolver.dart';
+import '../model/summoner/league.dart';
 
 class LiveGame extends StatefulWidget {
   final summonerId;
@@ -103,146 +105,141 @@ class _LiveGameState extends State<LiveGame> {
                             snapshot.connectionState == ConnectionState.done) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(5, 10, 0, 10),
-                                  color: Color(0xff2b4673),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("${liveMatch!.getQueueType()} | ${liveMatch!.getMapName()}",
-                                        style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 0,
-                                child: Column(
+                              Container(
+                                padding: EdgeInsets.fromLTRB(5, 14, 2, 13),
+                                color: Color(0xff2b4673),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      height: 35.0,
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                      color: Color(0xff1483d9),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Blue team",
-                                            style: TextStyle(fontSize: 16.0, color: Colors.white),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text("Bans: ", style: TextStyle(color:Colors.white, fontSize: 16.0)),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[0]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[1]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[2]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[3]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[4]), imageSize: 30),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    ListView.separated(
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
-                                        itemCount: 5,
-                                        itemBuilder: (context, index) {
-                                          LiveMatchParticipant currentParticipant = liveMatch!
-                                              .participants[index];
-                                          return Container(
-                                            padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
-                                            color: Colors.white,
-                                            child: Row(
-                                              children: [
-                                                ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
-                                                //
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  currentParticipant.summonerName,
-                                                  style: TextStyle(fontSize: 14.0),
-                                                ),
-                                                Expanded(child: SizedBox()),
-                                                Text("Division", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                                SizedBox(width: 60),
-                                                Text("Winrate", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                              ],
-                                            ),
-                                          );
-                                        }
-                                    ),
-                                    Container(
-                                      height: 35.0,
-                                      alignment: Alignment.centerLeft,
-                                      padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
-                                      color: Color(0xffc41e1e),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Red team",
-                                            style: TextStyle(fontSize: 16.0, color: Colors.white),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text("Bans: ", style: TextStyle(color:Colors.white, fontSize: 16.0)),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[5]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[6]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[7]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[8]), imageSize: 30),
-                                              SizedBox(width: 1),
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[9]), imageSize: 30),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    ListView.separated(
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: 5,
-                                        separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
-                                        itemBuilder: (context, index) {
-                                          LiveMatchParticipant currentParticipant = liveMatch!
-                                              .participants[index+5];
-                                          return Container(
-                                            padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
-                                            color: Colors.white,
-                                            child: Row(
-                                              children: [
-                                                ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  currentParticipant.summonerName,
-                                                  style: TextStyle(fontSize: 14.0),
-                                                ),
-                                                Expanded(child: SizedBox()),
-                                                Text("Division", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                                SizedBox(width: 60),
-                                                Text("Winrate", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                              ],
-                                            ),
-                                          );
-                                        }
+                                    Text("${liveMatch!.getQueueType()} | ${liveMatch!.getMapName()}",
+                                      style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.white),
                                     ),
                                   ],
                                 ),
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    height: 35.0,
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
+                                    color: Color(0xff1483d9),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Blue team",
+                                          style: TextStyle(fontSize: 16.0, color: Colors.white),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text("Bans: ", style: TextStyle(color:Colors.white, fontSize: 16.0)),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[0]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[1]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[2]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[3]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[4]), imageSize: 30),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  ListView.separated(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
+                                      itemCount: 5,
+                                      itemBuilder: (context, index) {
+                                        LiveMatchParticipant currentParticipant = liveMatch!
+                                            .participants[index];
+                                        return Container(
+                                          padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
+                                          color: Colors.white,
+                                          child: Row(
+                                            children: [
+                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                currentParticipant.summonerName,
+                                                style: TextStyle(fontSize: 14.0),
+                                              ),
+                                              Expanded(child: SizedBox()),
+                                              // Text("Division", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                              // SizedBox(width: 60),
+                                              // Text(currentParticipant.league, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  ),
+                                  Container(
+                                    height: 35.0,
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
+                                    color: Color(0xffc41e1e),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Red team",
+                                          style: TextStyle(fontSize: 16.0, color: Colors.white),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text("Bans: ", style: TextStyle(color:Colors.white, fontSize: 16.0)),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[5]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[6]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[7]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[8]), imageSize: 30),
+                                            SizedBox(width: 1),
+                                            ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[9]), imageSize: 30),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  ListView.separated(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: 5,
+                                      separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
+                                      itemBuilder: (context, index) {
+                                        LiveMatchParticipant currentParticipant = liveMatch!
+                                            .participants[index+5];
+                                        return Container(
+                                          padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
+                                          color: Colors.white,
+                                          child: Row(
+                                            children: [
+                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                currentParticipant.summonerName,
+                                                style: TextStyle(fontSize: 14.0),
+                                              ),
+                                              Expanded(child: SizedBox()),
+                                              // Text("Division", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                              // SizedBox(width: 60),
+                                              // Text("Winrate", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  ),
+                                ],
                               ),
                             ],
                           );
