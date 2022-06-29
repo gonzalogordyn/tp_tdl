@@ -9,7 +9,8 @@ import '../request_resolvers/live_match_request_resolver.dart';
 import '../model/live_match/champion_portrait.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import '../request_resolvers/summoner_request_resolver.dart';
-import '../model/summoner/league.dart';
+import '../model/summoner/summoner.dart';
+import '../views/summoner_history.dart';
 
 class LiveGame extends StatefulWidget {
   final summonerId;
@@ -162,42 +163,52 @@ class _LiveGameState extends State<LiveGame> {
                                       itemCount: 5,
                                       itemBuilder: (context, index) {
                                         LiveMatchParticipant currentParticipant = liveMatch!
-                                            .participants[index];currentParticipant.addLeagueInfo();
-                                        return Container(
-                                          padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
-                                          color: Colors.white,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
-                                              SizedBox(width: 2),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                    Image.network(
-                                                        'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell1Id)}.png',
+                                            .participants[index];
+                                        return InkWell(
+                                          onTap: () async {
+                                            Summoner currentSummoner = await fetchSummonerInfo(currentParticipant.summonerName);
+                                            currentSummoner.addLeagueInfo(await fetchSummonerLeagueInfo(currentSummoner.summonerId!));
+
+                                            Navigator.push(context,
+                                              MaterialPageRoute(
+                                                builder: (context) => SummonerHistory(summoner: currentSummoner),
+                                              ),
+                                            );
+                                          },
+
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
+                                            color: Colors.white,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
+                                                SizedBox(width: 2),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                      Image.network(
+                                                          'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell1Id)}.png',
+                                                          width: 19,
+                                                          height: 19,
+                                                      ),
+                                                      SizedBox(height: 2,),
+                                                      Image.network(
+                                                        'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell2Id)}.png',
                                                         width: 19,
                                                         height: 19,
-                                                    ),
-                                                    SizedBox(height: 2,),
-                                                    Image.network(
-                                                      'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell2Id)}.png',
-                                                      width: 19,
-                                                      height: 19,
-                                                    )
-                                                ],
-                                              ),
-                                              SizedBox(width: 5,),
-                                              Text(
-                                                currentParticipant.summonerName,
-                                                style: TextStyle(fontSize: 14.0),
-                                              ),
-                                              Expanded(child: SizedBox()),
-                                              Text("${(currentParticipant.getSummonerLeague())!.tier} ${(currentParticipant.getSummonerLeague())!.rank}", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                              SizedBox(width: 30),
-                                              Text("${(currentParticipant.getSummonerLeague())!.wins!.toStringAsFixed(0)}W ${(currentParticipant.getSummonerLeague())!.losses!.toStringAsFixed(0)}L (${(currentParticipant.getSummonerLeague())!.getWinrate().toStringAsFixed(0)})%", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                            ],
+                                                      )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8,),
+                                                Text(
+                                                  currentParticipant.summonerName,
+                                                  style: TextStyle(fontSize: 14.0),
+                                                ),
+                                                Expanded(child: SizedBox()),
+                                              ],
+                                            ),
                                           ),
                                         );
                                       }
@@ -239,40 +250,49 @@ class _LiveGameState extends State<LiveGame> {
                                       separatorBuilder: (BuildContext context, int index) => Divider(height: 1),
                                       itemBuilder: (context, index) {
                                         LiveMatchParticipant currentParticipant = liveMatch!
-                                            .participants[index+5]; currentParticipant.addLeagueInfo();
-                                        return Container(
-                                          padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
-                                          color: Colors.white,
-                                          child: Row(
-                                            children: [
-                                              ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
-                                              SizedBox(width: 2),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  Image.network(
-                                                    'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell1Id)}.png',
-                                                    width: 19,
-                                                    height: 19,
-                                                  ),
-                                                  SizedBox(height: 2,),
-                                                  Image.network(
-                                                    'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell2Id)}.png',
-                                                    width: 19,
-                                                    height: 19,
-                                                  )
-                                                ],
+                                            .participants[index+5];
+                                        return InkWell(
+                                          onTap: () async {
+                                            Summoner currentSummoner = await fetchSummonerInfo(currentParticipant.summonerName);
+                                            currentSummoner.addLeagueInfo(await fetchSummonerLeagueInfo(currentSummoner.summonerId!));
+
+                                            Navigator.push(context,
+                                              MaterialPageRoute(
+                                                builder: (context) => SummonerHistory(summoner: currentSummoner),
                                               ),
-                                              SizedBox(width: 5,),
-                                              Text(
-                                                currentParticipant.summonerName,
-                                                style: TextStyle(fontSize: 14.0),
-                                              ),
-                                              Expanded(child: SizedBox()),
-                                              Text("${(currentParticipant.getSummonerLeague())!.tier} ${(currentParticipant.getSummonerLeague())!.rank}", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                              SizedBox(width: 30),
-                                              Text("${(currentParticipant.getSummonerLeague())!.wins!.toStringAsFixed(0)}W ${(currentParticipant.getSummonerLeague())!.losses!.toStringAsFixed(0)}L (${(currentParticipant.getSummonerLeague())!.getWinrate().toStringAsFixed(0)})%", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100, color: Colors.grey),),
-                                            ],
+                                            );
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(4, 4, 20, 4),
+                                            color: Colors.white,
+                                            child: Row(
+                                              children: [
+                                                ChampionPortrait(championName: getChampionNameFromId(champDataJson,currentParticipant.championId), imageSize: 40),
+                                                SizedBox(width: 2),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Image.network(
+                                                      'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell1Id)}.png',
+                                                      width: 19,
+                                                      height: 19,
+                                                    ),
+                                                    SizedBox(height: 2,),
+                                                    Image.network(
+                                                      'http://ddragon.leagueoflegends.com/cdn/12.12.1/img/spell/${getSummonerSpellNameFromId(summonerSpellJson, currentParticipant.spell2Id)}.png',
+                                                      width: 19,
+                                                      height: 19,
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8,),
+                                                Text(
+                                                  currentParticipant.summonerName,
+                                                  style: TextStyle(fontSize: 14.0),
+                                                ),
+                                                Expanded(child: SizedBox()),
+                                              ],
+                                            ),
                                           ),
                                         );
                                       }

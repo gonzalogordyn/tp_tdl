@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-54ebb12d-a62d-4da2-bbfb-a78d8f8bdc9b";
+const String apiKey = "RGAPI-c9a0d21d-aca4-4021-a555-2dd4e46948df";
 
 Future<LiveMatch> fetchLiveMatch(String summonerID) async {
 
