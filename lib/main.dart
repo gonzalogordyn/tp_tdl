@@ -31,7 +31,7 @@ void main() {
     initialRoute: '/summonerinput',
     routes: {
     //   '/': (context) => Loading(),
-       '/summonerinput': (context) => SummonerInputScreen(),
+       '/summonerinput': (context) => SummonerInputScreen(newSearch: false),
        //'/matchhistory': (context) => SummonerHistory(),
     },
   ));

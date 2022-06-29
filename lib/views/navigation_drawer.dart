@@ -1,8 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_project/views/live_game.dart';
+import 'package:test_project/views/summoner_login.dart';
+import '../model/summoner/summoner.dart';
+import '../views/summoner_history.dart';
+import 'dart:convert';
 
-class NavigationDrawer extends StatelessWidget {
+class NavigationDrawer extends StatefulWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<NavigationDrawer> createState() => _NavigationDrawerState();
+}
+
+class _NavigationDrawerState extends State<NavigationDrawer> {
+  late Summoner summoner;
+
+  @override
+  void initState(){
+      super.initState();
+      final prefsFuture = SharedPreferences.getInstance();
+
+      prefsFuture.then((prefs) {
+        String? accountsStr = prefs.getString("accounts");
+        if(accountsStr != null) {
+          summoner = Summoner.fromJson(jsonDecode(accountsStr));
+        }
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,27 +41,39 @@ class NavigationDrawer extends StatelessWidget {
                       buildMenuItem(
                           text: 'Match history',
                           icon: Icons.menu_book_rounded,
-                          onClicked: (){}
+                          onClicked: (){
+                              if(summoner != null){
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                    builder: (context) => SummonerHistory(summoner: summoner),
+                                    ),
+                                );
+                              }
+                          }
                       ),
                       buildMenuItem(
                           text: 'Search summoner',
                           icon: Icons.search_rounded,
-                          onClicked: (){}
+                          onClicked: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SummonerInputScreen(newSearch: true),
+                                  ),
+                              );
+                          }
                       ),
                     buildMenuItem(
                       text: 'Live game',
                       icon: Icons.play_arrow_rounded,
-                      onClicked: (){}
-                    ),
-                    buildMenuItem(
-                      text: 'Statistics',
-                      icon: Icons.bar_chart,
-                      onClicked: (){}
-                    ),
-                    buildMenuItem(
-                        text: 'Latency test',
-                        icon: Icons.wifi,
-                        onClicked: (){}
+                      onClicked:  (){
+                        if(summoner != null){
+                          Navigator.push(context,
+                            MaterialPageRoute(
+                              builder: (context) => LiveGame(summonerId: summoner.summonerId),
+                            ),
+                          );
+                        }
+                      }
                     ),
                     buildMenuItem(
                         text: 'Log out',

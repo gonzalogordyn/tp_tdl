@@ -7,7 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SummonerInputScreen extends StatefulWidget{
-  const SummonerInputScreen({Key? key}) : super(key: key);
+  final bool newSearch;
+
+  const SummonerInputScreen({Key? key, required this.newSearch}) : super(key: key);
 
   @override
   State<SummonerInputScreen> createState() => _SummonerInputScreenState();
@@ -30,9 +32,8 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
 
     prefsFuture.then((prefs) {
       String? accountsStr = prefs.getString("accounts");
-      print("SAVED ACCS: ");
-      print(accountsStr);
-      if(accountsStr != null) {
+
+      if(accountsStr != null && !widget.newSearch) {
         summoner = Summoner.fromJson(jsonDecode(accountsStr));
         Navigator.push(context,
           MaterialPageRoute(
@@ -127,7 +128,10 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                 Summoner summoner = await fetchSummonerInfo(summonerName);
                 summoner.addLeagueInfo(await fetchSummonerLeagueInfo(summoner.summonerId!));
 
-                prefs.setString("accounts", summoner.stringify());
+                String? accountsStr = prefs.getString("accounts");
+                if(accountsStr == null) {
+                    prefs.setString("accounts", summoner.stringify());
+                }
 
                 Navigator.push(context,
                     MaterialPageRoute(
