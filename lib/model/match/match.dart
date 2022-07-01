@@ -17,6 +17,10 @@ class Match{
     }
   }
 
+  isClassicMode() {
+    return gameMode == "CLASSIC";
+  }
+
   getParticipantWithSummonerName(String summonerName) {
     try {
       return participants.firstWhere((participant) => participant.summonerName == summonerName);
