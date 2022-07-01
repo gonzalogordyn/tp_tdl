@@ -12,9 +12,7 @@ class MatchDetailsHeader extends StatelessWidget {
         buildButton("Summary"),
         Expanded(child: SizedBox()),
         buildButton("Details"),
-        Expanded(child: SizedBox()),
-        buildButton("Build"),
-        Expanded(child: SizedBox()),
+        Expanded(child: SizedBox())
       ]
     );
   }
