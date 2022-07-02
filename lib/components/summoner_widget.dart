@@ -95,6 +95,7 @@ class SummonerWidget extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => LiveGame(
                               summonerId: summoner.summonerId,
+                              serverID: summoner.region,
                             ),
                           ),
                         );

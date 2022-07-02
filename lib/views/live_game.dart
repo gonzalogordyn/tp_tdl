@@ -14,9 +14,11 @@ import '../views/summoner_history.dart';
 
 class LiveGame extends StatefulWidget {
   final summonerId;
+  final String serverID;
 
   const LiveGame({Key? key,
-      required this.summonerId
+      required this.summonerId,
+      required this.serverID,
   }) : super(key: key);
 
   @override
@@ -166,8 +168,8 @@ class _LiveGameState extends State<LiveGame> {
                                             .participants[index];
                                         return InkWell(
                                           onTap: () async {
-                                            Summoner currentSummoner = await fetchSummonerInfo(currentParticipant.summonerName);
-                                            currentSummoner.addLeagueInfo(await fetchSummonerLeagueInfo(currentSummoner.summonerId!));
+                                            Summoner currentSummoner = await fetchSummonerInfo(currentParticipant.summonerName, widget.serverID);
+                                            currentSummoner.addLeagueInfo(await fetchSummonerLeagueInfo(currentSummoner.summonerId!, widget.serverID));
 
                                             Navigator.push(context,
                                               MaterialPageRoute(
@@ -253,8 +255,8 @@ class _LiveGameState extends State<LiveGame> {
                                             .participants[index+5];
                                         return InkWell(
                                           onTap: () async {
-                                            Summoner currentSummoner = await fetchSummonerInfo(currentParticipant.summonerName);
-                                            currentSummoner.addLeagueInfo(await fetchSummonerLeagueInfo(currentSummoner.summonerId!));
+                                            Summoner currentSummoner = await fetchSummonerInfo(currentParticipant.summonerName, widget.serverID);
+                                            currentSummoner.addLeagueInfo(await fetchSummonerLeagueInfo(currentSummoner.summonerId!, widget.serverID));
 
                                             Navigator.push(context,
                                               MaterialPageRoute(
@@ -333,7 +335,7 @@ class _LiveGameState extends State<LiveGame> {
 
   void setLiveMatchFuture(summonerId) async {
       setState(() {
-          liveMatchInfo = fetchLiveMatch(summonerId);
+          liveMatchInfo = fetchLiveMatch(summonerId, widget.serverID);
       });
   }
 

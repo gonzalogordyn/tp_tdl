@@ -8,11 +8,12 @@ class Summoner {
     final String? summonerPuuid;
     final int? summonerIconId;
     final int? summonerLevel;
+    final String region;
     List<League> summonerLeagues = [];
 
-    Summoner({this.summonerName, this.summonerId, this.summonerPuuid, this.summonerIconId, this.summonerLevel});
+    Summoner({this.summonerName, this.summonerId, this.summonerPuuid, this.summonerIconId, this.summonerLevel, required this.region});
 
-    factory Summoner.fromJson(Map<String, dynamic> data) {
+    factory Summoner.fromJson(Map<String, dynamic> data, String region) {
         Summoner summoner;
 
         final summonerName = data["name"];
@@ -22,7 +23,7 @@ class Summoner {
         final summonerLevel = data["summonerLevel"];
 
         summoner = Summoner(summonerName: summonerName, summonerId: summonerId, summonerPuuid: summonerPuuid,
-        summonerIconId: summonerIconId, summonerLevel: summonerLevel);
+        summonerIconId: summonerIconId, summonerLevel: summonerLevel, region: region);
 
         if(data["leagues"] != null) {
             List<League> leagues = [];

@@ -24,7 +24,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       prefsFuture.then((prefs) {
         String? accountsStr = prefs.getString("accounts");
         if(accountsStr != null) {
-          summoner = Summoner.fromJson(jsonDecode(accountsStr));
+          summoner = Summoner.fromJson(jsonDecode(accountsStr), summoner.region);
         }
       });
   }
@@ -69,7 +69,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                         if(summoner != null){
                           Navigator.push(context,
                             MaterialPageRoute(
-                              builder: (context) => LiveGame(summonerId: summoner.summonerId),
+                              builder: (context) => LiveGame(summonerId: summoner.summonerId, serverID: summoner.region),
                             ),
                           );
                         }
