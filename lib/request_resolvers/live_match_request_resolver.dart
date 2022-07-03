@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-c9a0d21d-aca4-4021-a555-2dd4e46948df";
+const String apiKey = "RGAPI-f9791519-ba10-4262-a8b3-8c95323b45e3";
 
 const Map<String, String> serverMapping = {"LAS": "la2",
   'NA': 'na1',
@@ -29,13 +29,13 @@ Future<LiveMatch> fetchLiveMatch(String summonerID, String server) async {
     "X-Riot-Token": apiKey
   });
 
-  final String response = await rootBundle.loadString('assets/liveMatch.json');
-  //Map<String, dynamic> parsedJson = jsonDecode(res.body);
-  Map<String, dynamic> parsedJson = await jsonDecode(response);
-  // if (res.statusCode == 200) {
-  //   return buildLiveMatchFromJson(parsedJson);
-  // } else {
-  //   throw Exception('An error occurred fetching the live game. Please try again later. ${res.body}');
-  // }
+  // final String response = await rootBundle.loadString('assets/liveMatch.json');
+  Map<String, dynamic> parsedJson = jsonDecode(res.body);
+  // Map<String, dynamic> parsedJson = await jsonDecode(response);
+  if (res.statusCode == 200) {
+    return buildLiveMatchFromJson(parsedJson, server);
+  } else {
+    throw Exception('An error occurred fetching the live game. Please try again later. ${res.body}');
+  }
   return buildLiveMatchFromJson(parsedJson, server);
 }

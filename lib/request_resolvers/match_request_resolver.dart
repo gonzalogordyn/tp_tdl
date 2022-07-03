@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-c505da7e-ca38-4f60-aff8-21d4222f98fe";
+const String apiKey = "RGAPI-f9791519-ba10-4262-a8b3-8c95323b45e3";
 
 const Map<String, String> serverMapping = {"LAS": "americas",
   'NA': 'americas',

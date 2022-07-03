@@ -13,15 +13,22 @@ LiveMatch buildLiveMatchFromJson(Map<String, dynamic> liveMatchJson, String regi
       .map<LiveMatchParticipant>((participantJson) => buildLiveMatchParticipantFromJson(participantJson))
       .toList();
 
-  List<int> bannedChampionsIds = liveMatchJson["bannedChampions"]
-      .map<int>((bannedChampionsJson) => (bannedChampionsJson["championId"] as int)).toList();
-
-  return LiveMatch(participants: participants,
+  LiveMatch liveMatch = LiveMatch(participants: participants,
       gameMode: liveMatchJson["gameMode"],
       gameQueueConfigId: liveMatchJson["gameQueueConfigId"],
       mapId: liveMatchJson["mapId"],
-      bannedChampionsIds: bannedChampionsIds
   );
+
+
+  if(liveMatchJson.containsKey("bannedChampions")) {
+      List<int> bannedChampionsIds = liveMatchJson["bannedChampions"]
+          .map<int>((
+          bannedChampionsJson) => (bannedChampionsJson["championId"] as int))
+          .toList();
+      liveMatch.addBannedChampionsIds(bannedChampionsIds);
+  }
+
+  return liveMatch;
 }
 
 LiveMatchParticipant buildLiveMatchParticipantFromJson(Map<String, dynamic> participantJson) {
