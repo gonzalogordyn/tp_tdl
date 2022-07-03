@@ -8,7 +8,6 @@ import '../model/summoner/summoner.dart';
 import '../components/summoner_widget.dart';
 import '../request_resolvers/match_request_resolver.dart';
 import '../model/match/match.dart';
-import '../views/live_game.dart';
 import './summoner_stats.dart';
 
 class SummonerHistory extends StatefulWidget {
