@@ -24,8 +24,6 @@ class SummonerHistory extends StatefulWidget {
 }
 
 class _SummonerHistoryState extends State<SummonerHistory> {
-
-  final String summonerPuuid = "Jm1edPNuEnyrMqbf0fEhzHIP6o5KHqUcBxJl8tC7ZGUdEfY1nli8ViVsBp_7mSkp7alrSQ47Y-lwqQ";
   List<Match> matchHistory = [];
   late Future<List<Match>> matchHistoryInfo;
 
@@ -152,7 +150,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
                           margin: EdgeInsets.symmetric(vertical: 3, horizontal: 4),
                           child: TextButton(
                             child: Text("Show more", style: TextStyle(fontSize: 22),),
-                            onPressed: () { addGamesToMatchHistory(summonerPuuid, 5); },
+                            onPressed: () { addGamesToMatchHistory(widget.summoner.summonerPuuid, 5); },
                           ),
                         ),
                       ],
