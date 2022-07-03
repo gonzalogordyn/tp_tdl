@@ -3,7 +3,7 @@ import '../request_resolvers/summoner_request_resolver.dart';
 import '../model/live_match/live_match_participant.dart';
 import '../model/live_match/live_match.dart';
 
-LiveMatch buildLiveMatchFromJson(Map<String, dynamic> liveMatchJson) {
+LiveMatch buildLiveMatchFromJson(Map<String, dynamic> liveMatchJson, String region) {
 
   final isTutorialGame = liveMatchJson["gameMode"].toString().contains("TUTORIAL");
   if(isTutorialGame) {

@@ -7,11 +7,24 @@ import 'package:http/http.dart' as http;
 //TODO: Mover API_KEY a un archivo de configuracion
 const String apiKey = "RGAPI-8a5f7d0b-18cd-4536-a123-3873a3d4747b";
 
-Future<LiveMatch> fetchLiveMatch(String summonerID) async {
+const Map<String, String> serverMapping = {"LAS": "la2",
+  'NA': 'na1',
+  'EUW': 'euw1',
+  'EUNE': 'eun1',
+  'LAN': 'la1',
+  'BR': 'br1',
+  'JP': 'jp1',
+  'KR': 'kr',
+  'TR': 'tr1',
+  'OCE': 'oc1',
+  'RU': 'ru'
+};
+
+Future<LiveMatch> fetchLiveMatch(String summonerID, String server) async {
 
   // TODO: que cambie url segun el server elegido
 
-  String url = "https://la2.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/$summonerID";
+  String url = "https://${serverMapping[server]}.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/$summonerID";
   var res = await http.get(Uri.parse(url), headers: {
     "X-Riot-Token": apiKey
   });
@@ -24,5 +37,5 @@ Future<LiveMatch> fetchLiveMatch(String summonerID) async {
   // } else {
   //   throw Exception('An error occurred fetching the live game. Please try again later. ${res.body}');
   // }
-  return buildLiveMatchFromJson(parsedJson);
+  return buildLiveMatchFromJson(parsedJson, server);
 }

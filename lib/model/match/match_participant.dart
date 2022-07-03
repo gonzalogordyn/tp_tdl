@@ -13,6 +13,7 @@ class MatchParticipant {
   final int goldEarned;
   final int minionsKilled;
   final int jungleMinionsKilled;
+  final String region;
 
   MatchParticipant({required this.summonerName,
     required this.championName,
@@ -27,7 +28,8 @@ class MatchParticipant {
     required this.totalDamageTaken,
     required this.goldEarned,
     required this.jungleMinionsKilled,
-    required this.minionsKilled
+    required this.minionsKilled,
+    required this.region
   });
 
   String getScoreAsString() {

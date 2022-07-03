@@ -1,20 +1,21 @@
 import '../model/match/match_participant.dart';
 import '../model/match/match.dart';
 
-Match buildMatchFromJson(Map<String, dynamic> matchJson, Map<String, dynamic> matchTimelineJson) {
+Match buildMatchFromJson(Map<String, dynamic> matchJson, Map<String, dynamic> matchTimelineJson, String region) {
   final isTutorialGame = matchJson["info"]["gameMode"].toString().contains("TUTORIAL");
   if(isTutorialGame) {
     throw FormatException("Invalid game mode TUTORIAL");
   }
   List<MatchParticipant> participants = matchJson["info"]["participants"]
-      .map<MatchParticipant>((participantJson) => buildMatchParticipantFromJson(participantJson, matchTimelineJson))
+      .map<MatchParticipant>((participantJson) => buildMatchParticipantFromJson(participantJson, matchTimelineJson, region))
       .toList();
   return Match(participants: participants,
       gameMode: matchJson["info"]["gameMode"],
-      gameEndTimestamp: matchJson["info"]["gameEndTimestamp"]);
+      gameEndTimestamp: matchJson["info"]["gameEndTimestamp"],
+      region: region);
 }
 
-MatchParticipant buildMatchParticipantFromJson(Map<String, dynamic> participantJson, Map<String, dynamic> matchTimelineJson) {
+MatchParticipant buildMatchParticipantFromJson(Map<String, dynamic> participantJson, Map<String, dynamic> matchTimelineJson, String region) {
   List<int> build = [
     participantJson["item0"],
     participantJson["item1"],
@@ -39,5 +40,6 @@ MatchParticipant buildMatchParticipantFromJson(Map<String, dynamic> participantJ
       minionsKilled: gameEndFrame["participantFrames"]["$participantMatchTimeLineId"]["minionsKilled"],
       jungleMinionsKilled: gameEndFrame["participantFrames"]["$participantMatchTimeLineId"]["jungleMinionsKilled"],
       totalDamageTaken: participantJson["totalDamageTaken"],
-      goldEarned: participantJson["goldEarned"]);
+      goldEarned: participantJson["goldEarned"],
+      region: region);
 }

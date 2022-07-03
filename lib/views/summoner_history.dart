@@ -59,7 +59,7 @@ class _SummonerHistoryState extends State<SummonerHistory> {
 
   void setMatchHistoryFuture(summonerPuuid, start, limit) async {
     setState(() {
-      matchHistoryInfo = fetchMatchHistory(summonerPuuid, start, limit);
+      matchHistoryInfo = fetchMatchHistory(summonerPuuid, start, limit, widget.summoner.region);
     });
   }
 

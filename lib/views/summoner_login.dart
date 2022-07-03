@@ -34,7 +34,7 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
       String? accountsStr = prefs.getString("accounts");
 
       if(accountsStr != null && !widget.newSearch) {
-        summoner = Summoner.fromJson(jsonDecode(accountsStr));
+        summoner = Summoner.fromJson(jsonDecode(accountsStr), serverID);
         Navigator.push(context,
           MaterialPageRoute(
             builder: (context) => SummonerHistory(summoner: summoner),
@@ -125,8 +125,8 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                 _text.text.isEmpty ? _validate = true : _validate = false;
 
                 final prefs = await SharedPreferences.getInstance();
-                Summoner summoner = await fetchSummonerInfo(summonerName);
-                summoner.addLeagueInfo(await fetchSummonerLeagueInfo(summoner.summonerId!));
+                Summoner summoner = await fetchSummonerInfo(summonerName, serverID);
+                summoner.addLeagueInfo(await fetchSummonerLeagueInfo(summoner.summonerId!, serverID));
 
                 prefs.setString("accounts", summoner.stringify());
 
@@ -170,13 +170,13 @@ class ServerDropdownMenu extends StatefulWidget {
 }
 
 class _ServerDropdownMenu extends State<ServerDropdownMenu> {
-  String dropdownValue = 'LAS';
+  String server = 'LAS';
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton<String>(
-        value: dropdownValue,
+        value: server,
         icon: const Icon(Icons.expand_more_rounded),
         elevation: 4,
         alignment: AlignmentDirectional.topStart,
@@ -188,8 +188,8 @@ class _ServerDropdownMenu extends State<ServerDropdownMenu> {
         borderRadius: BorderRadius.circular(10.0),
         onChanged: (String? newValue) {
           setState(() {
-            dropdownValue = newValue!;
-            setState((){widget.notifyParent(dropdownValue);});
+            server = newValue!;
+            setState((){widget.notifyParent(server);});
           });
 
         },

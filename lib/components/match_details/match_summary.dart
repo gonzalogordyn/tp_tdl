@@ -78,19 +78,22 @@ class MatchSummary extends StatelessWidget {
 
   List<MatchParticipant> _orderParticipantsByTeamAndPosition() {
     // TODO: Fix. This fails if it's an ARAM (probably because it doesn't return positions...)
-    List<MatchParticipant> orderedList = [];
-    bool playerWin = matchParticipant.win;
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "TOP" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "JUNGLE" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "MIDDLE" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "BOTTOM" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "UTILITY" && participant.win == playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "TOP" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "JUNGLE" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "MIDDLE" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "BOTTOM" && participant.win != playerWin));
-    orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "UTILITY" && participant.win != playerWin));
-    return orderedList;
+    if (match.isClassicMode()) {
+      List<MatchParticipant> orderedList = [];
+      bool playerWin = matchParticipant.win;
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "TOP" && participant.win == playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "JUNGLE" && participant.win == playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "MIDDLE" && participant.win == playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "BOTTOM" && participant.win == playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "UTILITY" && participant.win == playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "TOP" && participant.win != playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "JUNGLE" && participant.win != playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "MIDDLE" && participant.win != playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "BOTTOM" && participant.win != playerWin));
+      orderedList.add(match.participants.firstWhere((participant) => participant.teamPosition == "UTILITY" && participant.win != playerWin));
+      return orderedList;
+    }
+    return match.participants;
   }
 
   Color _getColor(MatchParticipant currentParticipant) {
