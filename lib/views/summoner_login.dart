@@ -128,10 +128,7 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                 Summoner summoner = await fetchSummonerInfo(summonerName, serverID);
                 summoner.addLeagueInfo(await fetchSummonerLeagueInfo(summoner.summonerId!, serverID));
 
-                String? accountsStr = prefs.getString("accounts");
-                if(accountsStr == null) {
-                    prefs.setString("accounts", summoner.stringify());
-                }
+                prefs.setString("accounts", summoner.stringify());
 
                 Navigator.push(context,
                     MaterialPageRoute(
