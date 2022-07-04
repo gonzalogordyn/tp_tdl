@@ -11,6 +11,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import '../request_resolvers/summoner_request_resolver.dart';
 import '../model/summoner/summoner.dart';
 import '../views/summoner_history.dart';
+import '../components/match_details/champion_bans.dart';
 
 class LiveGame extends StatefulWidget {
   final summonerId;
@@ -107,21 +108,7 @@ class _LiveGameState extends State<LiveGame> {
                                         "Blue team",
                                         style: TextStyle(fontSize: 16.0, color: Colors.white),
                                       ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Text("Bans: ", style: TextStyle(color:Colors.white, fontSize: 16.0)),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[0]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[1]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[2]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[3]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[4]), imageSize: 30),
-                                        ],
-                                      )
+                                      ChampionBans(bannedChampionsIds: liveMatch!.bannedChampionsIds, liveMatch: liveMatch!, champDataJson: champDataJson)
                                     ],
                                   ),
                                 ),
@@ -194,21 +181,7 @@ class _LiveGameState extends State<LiveGame> {
                                         "Red team",
                                         style: TextStyle(fontSize: 16.0, color: Colors.white),
                                       ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Text("Bans: ", style: TextStyle(color:Colors.white, fontSize: 16.0)),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[5]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[6]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[7]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[8]), imageSize: 30),
-                                          SizedBox(width: 1),
-                                          ChampionPortrait(championName: getChampionNameFromId(champDataJson, liveMatch!.bannedChampionsIds[9]), imageSize: 30),
-                                        ],
-                                      )
+                                      ChampionBans(bannedChampionsIds: liveMatch!.bannedChampionsIds, liveMatch: liveMatch!, champDataJson: champDataJson)
                                     ],
                                   ),
                                 ),
