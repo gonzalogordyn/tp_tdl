@@ -23,8 +23,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
       prefsFuture.then((prefs) {
         String? accountsStr = prefs.getString("accounts");
+        String? prefServerID = prefs.getString("server");
         if(accountsStr != null) {
-          summoner = Summoner.fromJson(jsonDecode(accountsStr), summoner.region);
+          summoner = Summoner.fromJson(jsonDecode(accountsStr), prefServerID!);
         }
       });
   }
@@ -81,6 +82,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                         onClicked: () async {
                             final prefs = await SharedPreferences.getInstance();
                             await prefs.remove("accounts");
+                            await prefs.remove("server");
                             Navigator.of(context).popUntil(ModalRoute.withName("/summonerinput"));
                         }
                     ),

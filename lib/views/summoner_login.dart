@@ -32,9 +32,10 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
 
     prefsFuture.then((prefs) {
       String? accountsStr = prefs.getString("accounts");
+      String? prefServerID = prefs.getString("server");
 
-      if(accountsStr != null && !widget.newSearch) {
-        summoner = Summoner.fromJson(jsonDecode(accountsStr), serverID);
+      if(accountsStr != null && !(widget.newSearch)) {
+        summoner = Summoner.fromJson(jsonDecode(accountsStr), prefServerID!);
         Navigator.push(context,
           MaterialPageRoute(
             builder: (context) => SummonerHistory(summoner: summoner),
@@ -128,7 +129,10 @@ class _SummonerInputScreenState extends State<SummonerInputScreen> {
                 Summoner summoner = await fetchSummonerInfo(summonerName, serverID);
                 summoner.addLeagueInfo(await fetchSummonerLeagueInfo(summoner.summonerId!, serverID));
 
-                prefs.setString("accounts", summoner.stringify());
+                if(prefs.getString("accounts") == null) {
+                    prefs.setString("accounts", summoner.stringify());
+                    prefs.setString("server", serverID);
+                }
 
                 Navigator.push(context,
                     MaterialPageRoute(
