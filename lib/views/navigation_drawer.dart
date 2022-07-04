@@ -37,7 +37,24 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               color: Color(0xff192941),
               child: ListView(
                   children: <Widget>[
-                      const SizedBox(height: 100),
+                      Container(
+                          padding: EdgeInsets.all(10),
+                          height: 80,
+                          child: Row(
+                              children: <Widget>[
+                                  CircleAvatar(
+                                      backgroundColor: Color(0xffa98101),
+                                      radius: 30,
+                                      child: CircleAvatar(
+                                        radius: 28,
+                                        backgroundImage: NetworkImage("http://ddragon.leagueoflegends.com/cdn/12.11.1/img/profileicon/${summoner.summonerIconId}.png"),
+                                      )
+                                  ),
+                                  SizedBox(width:10),
+                                  Text(summoner.summonerName!, style: TextStyle(fontSize: 20.0, color: Colors.white))
+                              ],
+                          ),
+                      ),
                       Divider(color: Color(0xff2d4873)),
                       buildMenuItem(
                           text: 'Match history',
