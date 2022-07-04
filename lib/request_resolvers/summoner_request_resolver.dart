@@ -4,7 +4,7 @@ import '../model/summoner/summoner.dart';
 import 'package:http/http.dart' as http;
 
 //TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-f9791519-ba10-4262-a8b3-8c95323b45e3";
+const String apiKey = "RGAPI-15692da6-2d90-4de1-a762-4f9ec0110243";
 
 const Map<String, String> serverMapping = {"LAS": "la2",
   'NA': 'na1',

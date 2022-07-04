@@ -19,15 +19,20 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   @override
   void initState(){
       super.initState();
-      final prefsFuture = SharedPreferences.getInstance();
+      setSummoner();
+  }
 
-      prefsFuture.then((prefs) {
-        String? accountsStr = prefs.getString("accounts");
-        String? prefServerID = prefs.getString("server");
-        if(accountsStr != null) {
+  void setSummoner() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String? accountsStr = prefs.getString("accounts");
+    String? prefServerID = prefs.getString("server");
+    if(accountsStr != null) {
+      setState((){
           summoner = Summoner.fromJson(jsonDecode(accountsStr), prefServerID!);
-        }
       });
+
+      }
   }
 
   @override
@@ -50,8 +55,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                         backgroundImage: NetworkImage("http://ddragon.leagueoflegends.com/cdn/12.11.1/img/profileicon/${summoner.summonerIconId}.png"),
                                       )
                                   ),
-                                  SizedBox(width:10),
-                                  Text(summoner.summonerName!, style: TextStyle(fontSize: 20.0, color: Colors.white))
+                                  SizedBox(width:15),
+                                  Text("${summoner.summonerName!} (${summoner.region})", style: TextStyle(fontSize: 20.0, color: Colors.white))
                               ],
                           ),
                       ),
