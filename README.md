@@ -1,5 +1,7 @@
 # TDLoL.gg
  Aplicación para la búsqueda de usuarios y su historial de League of Legends.
+ Link trailer: https://www.youtube.com/watch?v=UZDUXm_MNYY
+ Link video: https://youtu.be/YT5htgMLnwc
 
 ## Features
 Las features incluyen:
