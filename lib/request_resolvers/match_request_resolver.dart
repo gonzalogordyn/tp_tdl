@@ -1,11 +1,8 @@
 import '../model/match/match.dart';
 import '../model_parsers/match_parser.dart';
-
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-//TODO: Mover API_KEY a un archivo de configuracion
-const String apiKey = "RGAPI-15692da6-2d90-4de1-a762-4f9ec0110243";
 
 const Map<String, String> serverMapping = {"LAS": "americas",
   'NA': 'americas',
@@ -37,7 +34,7 @@ Future<List<Match>> fetchMatchHistory(String summonerPuuid, int start, int count
 }
 
 Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count, String server) async {
-  // String base = "${serverMapping[server]}.api.riotgames.com";
+  String apiKey = await rootBundle.loadString('assets/api_key.txt');
   String base = "${serverMapping[server]}.api.riotgames.com";
   String endpoint = "/lol/match/v5/matches/by-puuid/$summonerPuuid/ids";
   final params = {
@@ -53,6 +50,7 @@ Future<List<dynamic>> fetchMatchIds(String summonerPuuid, int start, int count, 
 }
 
 Future<Match> fetchSummonerMatchInfo(String summonerPuuid, String matchId, String server) async {
+  String apiKey = await rootBundle.loadString('assets/api_key.txt');
   String url = "https://${serverMapping[server]}.api.riotgames.com/lol/match/v5/matches/$matchId";
   var res = await http.get(Uri.parse(url), headers: {
     "X-Riot-Token": apiKey
