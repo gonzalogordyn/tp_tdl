@@ -5,8 +5,10 @@
 Las features incluyen:
 - Búsqueda un invocador eligiendo su servidor.
 ![Búsqueda Invocador](/screenshots/SummonerInput.png)
+
 - Historial de partidas de un invocador.
 ![Historial partidas](/screenshots/MatchHistory.png)
+
 - Detalles de cada partida.
 ![Resumen partida](/screenshots/MatchSummary.png)
 ![Detalles partida](/screenshots/MatchDetails.png)
@@ -17,5 +19,6 @@ Las features incluyen:
 
 - Partida en vivo de un invocador.
 ![Partida en vivo](/screenshots/LiveGame.png)
+
 - Guardar un invocador para rápido acceso a historial.
 ![Drawer](/screenshots/NavigationDrawer.png)
